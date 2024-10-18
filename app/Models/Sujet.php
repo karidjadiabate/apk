@@ -22,6 +22,11 @@ class Sujet extends Model
         return $this->belongsTo(Classe::class);
     }
 
+    public function filiere()
+    {
+        return $this->belongsTo(Filiere::class);
+    }
+
     public function etablissement()
     {
         return $this->belongsTo(Etablissement::class);

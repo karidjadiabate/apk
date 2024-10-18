@@ -222,10 +222,10 @@
                                                         <select class="select2-multiple form-control"
                                                             id="matiereSelect" name="matiere_id" style="width: 100%"
                                                             disabled>
-                                                            @foreach ($nosmatieres as $matiereOption)
+                                                            @foreach ($lesmatieres as $matiereOption)
                                                                 <option
-                                                                    value="{{ $matiereOption->etablissement_matiere_id }}"
-                                                                    {{ $matiereOption->etablissement_matiere_id == $matiere->matiere_id ? 'selected' : '' }}>
+                                                                    value="{{ $matiereOption->id }}"
+                                                                    {{ $matiereOption->id == $matiere->matiere_id ? 'selected' : '' }}>
                                                                     {{ $matiereOption->nommatiere }}
                                                                 </option>
                                                             @endforeach
@@ -249,7 +249,7 @@
                                                             required>
                                                             <option value="">Sélectionnez une filière</option>
                                                             @foreach ($listefilieres as $filiere)
-                                                                <option value="{{ $filiere->filiere_id }}">
+                                                                <option value="{{ $filiere->filiere_id }}" {{ $filiere->id == $matiere->filiere_id ? 'selected' : '' }}>
                                                                     {{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}
                                                                 </option>
                                                             @endforeach
@@ -268,14 +268,14 @@
                                                             onchange="enableButtons()" style="margin: 0 10px;">
                                                             <option selected>Niveau</option>
                                                             @foreach ($niveaux as $niveau)
-                                                                <option value="{{ $niveau->id }}">
-                                                                    {{ $niveau->nomniveau }}</option>
+                                                                <option value="{{ $niveau->id }}" {{ $niveau->id == $matiere->niveau_id ? 'selected' : '' }}>
+                                                                    {{ $niveau->code }}</option>
                                                             @endforeach
                                                         </select>
 
                                                         <!-- Coefficient Input -->
                                                         <input type="number" class="form-control" id="coefficient"
-                                                            name="coefficient" value="1" min="1"
+                                                            name="coefficient" value="{{$matiere->coefficient}}" min="1"
                                                             style="width: 70px;">
 
                                                         <!-- Button to increase value -->

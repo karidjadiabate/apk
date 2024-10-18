@@ -142,7 +142,7 @@
                         @endphp
                         @foreach ($classes as $classe)
                             <tr>
-                                <td data-label="Code">{{ $classe->code }}</td>
+                                <td data-label="Code">{{ $classe->codeclasse }}</td>
                                 <td data-label="Nom">{{ $classe->nomclasse }}</td>
                                 <td data-label="Filière">{{ $classe->nomfiliere }}</td>
                                 <td data-label="Niveau">{{ $classe->codeniveau }}</td>

@@ -39,7 +39,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            border: 1px solid #cfd0e5;  
+            border: 1px solid #cfd0e5;
             padding: 0 10mm 5mm 10mm;
             margin-bottom: 10px;
             flex-wrap: wrap;
@@ -132,7 +132,7 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px; 
+            gap: 10px;
             width: 100%;
         }
         .custom-placeholder::placeholder {
@@ -145,17 +145,17 @@
             font-weight: lighter;
         }
         .question-text {
-            flex: 1; 
+            flex: 1;
             font-size: 1rem;
             color: #333;
         }
 
         .question-image {
-            flex-shrink: 0; 
+            flex-shrink: 0;
         }
 
         .question-image img {
-            max-width: 75px; 
+            max-width: 75px;
             height: auto;
         }
         .fa-moon{
@@ -218,7 +218,7 @@
             font-size:  14px !important;
         }
 
-        
+
         .graph {
             display: flex;
             justify-content: end;
@@ -242,7 +242,7 @@
         }
         .margin-l{
             margin-right: 100px;
-            margin-top: -65px;    
+            margin-top: -65px;
         }
         .footer-sheet {
             margin-top: 20px;
@@ -281,7 +281,7 @@
             background-color: #fff;
             padding: 20px;
             border-radius: 0px;
-            width: 400px; 
+            width: 400px;
             max-width: 90%;
             text-align: center;
             padding-top:0px;
@@ -294,27 +294,27 @@
     border: none;
     border-radius: 0px;
     text-decoration: none;
-}
-.disabled {
-        pointer-events: none; 
-        background: grey; 
-        text-decoration: none; 
-        color:#fff;
-        border-radius: 0;
     }
-    .endnext{
-        position: absolute!important;
-        right: 20%!important;
-    }
-    input[name="noteprincipale"] {
-        width:254px!important;
-        height:68px!important;
-    }
-    .enfant h2{
-        margin-top:20px!important;
-    }
+    .disabled {
+            pointer-events: none;
+            background: grey;
+            text-decoration: none;
+            color:#fff;
+            border-radius: 0;
+        }
+        .endnext{
+            position: absolute!important;
+            right: 20%!important;
+        }
+        input[name="noteprincipale"] {
+            width:254px!important;
+            height:68px!important;
+        }
+        .enfant h2{
+            margin-top:20px!important;
+        }
 </style>
-    <title>Registration Form</title>
+    <title>Sujet</title>
 </head>
 
 <body>
@@ -403,7 +403,7 @@
                                 Sélectionnez la Filière
                             </option>
                             @foreach ($filieres as $filiere)
-                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->nomfiliere }}">{{ $filiere->nomfiliere }}</option>
+                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->nomfiliere }}">{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
                             @endforeach
                         </select>
                         <span class="border"></span>
@@ -495,7 +495,7 @@
                                                         <div class="eme">
                                                             <label for="fileinputs"><i
                                                                     class="fa-regular fa-image"></i></label>
-                                                            <input type="file" id="fileinputs" class="file-input" 
+                                                            <input type="file" id="fileinputs" class="file-input"
                                                                 data-preview="imagepreviews" data-result="previews"
                                                                 name="sections[0][questions][0][image]" style="display: none" />
                                                             <img id="imagepreviews" alt="Aperçu de l'image" />
@@ -515,7 +515,7 @@
                                                         <input type="text" class="heckbox-reponce" id="checkbox1"
                                                             name="sections[0][questions][0][reponses][0][libreponse]"
                                                             required placeholder="reponse 1" />
-                                                       
+
                                                         <input type="file" id="imagine" class="file-input"
                                                             data-preview="imaginations" name="sections[0][questions][0][reponses][0][image]"
                                                             style="display: none" />
@@ -627,7 +627,7 @@
                                 Sélectionnez la Filière
                             </option>
                             @foreach ($filieres as $filiere)
-                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->nomfiliere }}">{{ $filiere->nomfiliere }}</option>
+                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->nomfiliere }}">{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
                             @endforeach
                         </select>
                         <span class="border"></span>
@@ -667,7 +667,7 @@
                 </div>
                 </div>
 
-                
+
             </div>
 
             <div class="form-step">
@@ -798,7 +798,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <div class="form-step">
                 <div class="content"><!-- Contenu de la page --></div>
                 <div class="btns-group">
@@ -815,8 +815,8 @@
     <div id="modalbtn" class="modal">
         <div class="modal-content">
             <button type="button" class="custom-close-btn" data-bs-dismiss="modal" aria-label="Close" id="fermetures1">
-                <i class="fa-solid fa-xmark"></i> 
-            </button>            
+                <i class="fa-solid fa-xmark"></i>
+            </button>
             <h3>Quitter la page</h3>
             <p>Voulez-vous vraiment quitter la page ??</p>
             <div id="cool">
@@ -831,7 +831,7 @@
 
     @endif
 
-    
+
     <script>
 
 function validateSection(sectionElement) {
@@ -846,15 +846,15 @@ function validateSection(sectionElement) {
     }
 
     const questions = sectionElement.querySelectorAll('.questionnaire');
-    
+
     if (questions.length === 0) {
         console.log("Aucune question trouvée");
-        return true; 
+        return true;
     }
 
     for (let question of questions) {
         const reponses = question.querySelectorAll('.circle-list li');
-        
+
         if (reponses.length === 0) {
             console.log("Aucune réponse trouvée pour une question");
             return false;
@@ -865,7 +865,7 @@ function validateSection(sectionElement) {
             const resultSelect = reponse.querySelector('select[name$="[result]"]');
             const pointsInput = reponse.querySelector('input[name$="[points]"]');
             const fileInput = reponse.querySelector('input[type="file"]');
-            
+
             if (!libreponseInput || !resultSelect || !pointsInput || !fileInput) {
                 console.log("Champs manquants dans une réponse");
                 return false;
@@ -874,14 +874,14 @@ function validateSection(sectionElement) {
             const libreponse = libreponseInput.value.trim();
             const result = resultSelect.value;
             const points = pointsInput.value.trim();
-            
+
             if ((!libreponse && !fileInput.files.length) || !result || !points) {
                 console.log("Champs requis non remplis dans une réponse");
                 return false;
             }
         }
     }
-    
+
     return true;
 }
 
@@ -1056,7 +1056,7 @@ function validateSection(sectionElement) {
                         const questionnaireContainer = sectionElement.querySelector(
                             ".questionnaire-container");
                         if (!questionnaireContainer) return;
-   
+
 
                         const newQuestionnaire = document.createElement("div");
                         newQuestionnaire.className = "input-group";
@@ -1101,8 +1101,8 @@ function validateSection(sectionElement) {
                         </div>
                     </div>`;
                     const spacer = document.createElement("div");
-                    spacer.className = "question-separator"; 
-                    
+                    spacer.className = "question-separator";
+
                         questionnaireContainer.appendChild(spacer);
                         questionnaireContainer.appendChild(newQuestionnaire);
                         attachAllEvents(newQuestionnaire);
@@ -1134,7 +1134,7 @@ function validateSection(sectionElement) {
                     });
                 });
             }
-          
+
 
 
             function attachDeleteSectionEvent(sectionElement) {
@@ -1257,7 +1257,7 @@ function validateSection(sectionElement) {
         const elementToRemoves = document.querySelector(".avancer");
         if (elementToRemoves) {
             elementToRemoves.remove();
-        } 
+        }
 
         // Supprimer les classes "enfant_suivant" et "width-24" de l'élément <a>
         const elementToModify = document.querySelector("a.enfant_suivant.width-24");
@@ -1310,9 +1310,9 @@ function validateSection(sectionElement) {
 
             var structuredData = null;
 
-$(".btn-next").click(function (e) { 
+$(".btn-next").click(function (e) {
     e.preventDefault();
-    
+
     // Initialisation
     var formData = new FormData();
     var fileReadPromises = [];
@@ -1323,7 +1323,7 @@ $(".btn-next").click(function (e) {
     $('.form-step').find('input, select, textarea').each(function() {
         var inputName = $(this).attr('name');
         var inputValue = $(this).val();
-        
+
         // Vérifier si l'input est de type 'file'
         if ($(this).attr('type') === 'file' && this.files.length > 0) {
             $.each(this.files, function(i, file) {
@@ -1332,11 +1332,11 @@ $(".btn-next").click(function (e) {
                 var promise = new Promise(function(resolve) {
                     reader.onload = function(e) {
                         formData.append(inputName, e.target.result);
-                        resolve(); 
+                        resolve();
                     };
-                    reader.readAsDataURL(file); 
+                    reader.readAsDataURL(file);
                 });
-                fileReadPromises.push(promise); 
+                fileReadPromises.push(promise);
             });
         } else {
             // Ajouter la valeur normale dans FormData
@@ -1356,14 +1356,14 @@ $(".btn-next").click(function (e) {
     });
     Promise.all(fileReadPromises).then(function() {
         if (button.hasClass('endnext')) {
-            structuredData = structureData(formData); 
+            structuredData = structureData(formData);
 
             var counter = 1;
                 var count_qustn = 1;
                 const contentHtml = `
                     <div class="header">
                         <div class="logo"><img src="{{ asset('images/pigier.png') }}" class="img-sheet" height="50" width="auto" alt=""></div>
-                        <div class="title"> 
+                        <div class="title">
                             <div class="devoir"><span class="devoir-text">${dataAtributes.typesujet}</span></div>
                             <div class="devtitle">
                                 <div class="devoir"><span class="left-title">Matière :</span> ${dataAtributes.matiere}</div>
@@ -1427,7 +1427,7 @@ $(".btn-next").click(function (e) {
                                             </div>
                                         ` : ''}
                                     </div>
-                                
+
                                 `).join('')}
                             </div>
                         `).join('')}
@@ -1450,7 +1450,7 @@ $(".btn-next").click(function (e) {
 
                 // Insérer le HTML dynamique
                 $('.content').html(contentHtml);
-    
+
     }
     }).catch(function(error) {
         console.error("Erreur lors de la lecture des fichiers : ", error);
@@ -1469,7 +1469,7 @@ function structureData(formData) {
         var sectionData = {
             titre: formData.get(`sections[${sectionIndex}][titre]`) || null,
             soustitre: formData.get(`sections[${sectionIndex}][soustitre]`) || null,
-            image: formData.get(`sections[${sectionIndex}][soustitre][image]`) || null,  
+            image: formData.get(`sections[${sectionIndex}][soustitre][image]`) || null,
             questions: []
         };
 
@@ -1480,7 +1480,7 @@ function structureData(formData) {
                 image: formData.get(`sections[${sectionIndex}][questions][${questionIndex}][image]`) || null,  // Ajout de l'image de la question
                 reponses: []
             };
-            
+
             var responseIndex = 0;
             while (formData.get(`sections[${sectionIndex}][questions][${questionIndex}][reponses][${responseIndex}][libreponse]`) !== null) {
                 var responseData = {
@@ -1489,7 +1489,7 @@ function structureData(formData) {
                     points: formData.get(`sections[${sectionIndex}][questions][${questionIndex}][reponses][${responseIndex}][points]`) || null,
                     //image: formData.get(`sections[${sectionIndex}][questions][${questionIndex}][reponses][${responseIndex}][image]`) || null  // Ajout de l'image de la réponse
                 };
-                
+
                 questionData.reponses.push(responseData);
                 responseIndex++;
             }
@@ -1542,7 +1542,7 @@ function structureData(formData) {
             } else {
                 console.error("Erreur : noteprincipale est vide.");
             }
-            
+
             currentStep.next(".form-step").find('input, select, textarea, file').each(function () {
                 var inputName = $(this).attr('name');
                 if (formData.get(inputName)) {
@@ -1564,7 +1564,7 @@ function structureData(formData) {
         }
     });
 });
-// modal de retour 
+// modal de retour
  const closeModalBtn = document.getElementById("close-modal-btn");
     const modal = document.getElementById("modalbtn");
     const fermerBtn = document.getElementById("fermetures1");
@@ -1574,15 +1574,15 @@ function structureData(formData) {
         modal.style.display = "flex";
     });
     fermerBtn.addEventListener("click", () => {
-        modal.style.display = "none"; 
+        modal.style.display = "none";
     });
 
     nonBtn.addEventListener("click", () => {
-        modal.style.display = "none"; 
+        modal.style.display = "none";
     });
     window.addEventListener("click", (event) => {
         if (event.target == modal) {
-            modal.style.display = "none";  
+            modal.style.display = "none";
         }
     });
     </script>
@@ -1592,47 +1592,47 @@ function structureData(formData) {
         const inputselect = document.getElementById('time');
         const inputselect1 = document.getElementById('consigne');
         let allFilled = true;
-    
+
         selects.forEach(select => {
             if (select.value === "") {
                 allFilled = false;
             }
         });
-    
+
         if (inputselect.value === "") {
             allFilled = false;
         }
         if (inputselect1.value === "") {
             allFilled = false;
         }
-    
+
         const suivantButton = document.getElementById('suivants');
         if (allFilled) {
             suivantButton.classList.remove('disabled');
             suivantButton.style.backgroundColor="#38b293";
         } else {
-            suivantButton.classList.add('disabled'); 
+            suivantButton.classList.add('disabled');
             suivantButton.style.backgroundColor="grey";
 
         }
     }
-    
+
     document.querySelectorAll('.wo select').forEach(select => {
         select.addEventListener('change', checkSelects);
     });
-    
+
     document.getElementById('time').addEventListener('input', checkSelects);
     document.getElementById('consigne').addEventListener('input', checkSelects);
-    
-    
+
+
         </script>
-    
+
     <script>
     function checkSelectContainer() {
-        const notecontainer = document.querySelector('.note-container input'); 
-        const suivantButton2 = document.querySelector('.valid-not'); 
-        const suivantButton1 = document.querySelector('.enfant_suivant'); 
-    
+        const notecontainer = document.querySelector('.note-container input');
+        const suivantButton2 = document.querySelector('.valid-not');
+        const suivantButton1 = document.querySelector('.enfant_suivant');
+
         // Vérifier si l'input est rempli
         if (notecontainer && notecontainer.value !== "") {
             suivantButton1.classList.remove('disabled');
@@ -1645,61 +1645,61 @@ function structureData(formData) {
         } else {
             suivantButton1.classList.add('disabled');
             suivantButton2.classList.add('disabled');
-            suivantButton1.style.backgroundColor = "grey"; 
-            suivantButton2.style.backgroundColor = "grey"; 
+            suivantButton1.style.backgroundColor = "grey";
+            suivantButton2.style.backgroundColor = "grey";
         }
     }
-    
+
     const input = document.querySelector('.note-container input');
     if (input) {
         input.addEventListener('input', checkSelectContainer);
     }
             </script>
-           
+
             <script>
                 function alignLastAjouterQuestion() {
         const ajouterQuestionLinks = document.querySelectorAll('.Ajouter-question');
         const dernierAjouterQuestion = ajouterQuestionLinks[ajouterQuestionLinks.length - 1];
         const ajouterSection = document.querySelector('.ajouter-section');
-    
+
         if (dernierAjouterQuestion && ajouterSection) {
             const sectionRect = ajouterSection.getBoundingClientRect();
-    
-            dernierAjouterQuestion.style.position = 'absolute'; 
+
+            dernierAjouterQuestion.style.position = 'absolute';
             dernierAjouterQuestion.style.left = `${sectionRect.left}px`;
-            dernierAjouterQuestion.style.top = `${sectionRect.top}px`; 
+            dernierAjouterQuestion.style.top = `${sectionRect.top}px`;
         }
     }
-    
+
     alignLastAjouterQuestion();
-    
+
             </script>
-    
+
     <script>
         function toggleAjouterSection() {
-            const inputs = document.querySelectorAll('.form input[type="text"]'); 
-            const ajouterSectionLink = document.querySelector('.ajouter-section'); 
-    
-            let allFilled = true; 
-    
+            const inputs = document.querySelectorAll('.form input[type="text"]');
+            const ajouterSectionLink = document.querySelector('.ajouter-section');
+
+            let allFilled = true;
+
             inputs.forEach(input => {
                 if (input.value === "") {
-                    allFilled = false; 
+                    allFilled = false;
                 }
             });
-    
+
             if (allFilled) {
-                ajouterSectionLink.classList.remove('disabled'); 
+                ajouterSectionLink.classList.remove('disabled');
             } else {
-                ajouterSectionLink.classList.add('disabled'); 
+                ajouterSectionLink.classList.add('disabled');
             }
         }
-    
-        const inputs = document.querySelectorAll('.form input[type="text"]'); 
+
+        const inputs = document.querySelectorAll('.form input[type="text"]');
         inputs.forEach(input => {
             input.addEventListener('input[type="text"]', toggleAjouterSection);
         });
-    
+
         toggleAjouterSection();
     </script>
     <script>
@@ -1709,7 +1709,7 @@ if (parentContainer) {
     parentContainer.addEventListener("click", function(event) {
         if (event.target.classList.contains("delete-questionnaires")) {
             const grandParent = event.target.closest(".sa");
-            
+
             if (grandParent) {
                 const sibling = grandParent.nextElementSibling; // Frère direct
 
@@ -1784,7 +1784,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const information49 = document.querySelectorAll('.form input');
     const information50 = document.querySelectorAll('input[type="number"]');
     const information51 = document.querySelectorAll('.sectio-container');
-    
+
     const information52 = document.querySelectorAll('.sa');
     const information53 = document.querySelectorAll('.file-input');
     const information54 = document.querySelectorAll('input[type="file"]');
@@ -1798,30 +1798,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // Fonction pour appliquer les styles en fonction du mode
     const applyStyles = (darkMode) => {
         if (darkMode) {
-            sunIcon.style.display = 'none'; 
-            moonIcon.style.display = 'flex'; 
- 
-            navigation.forEach(nav => nav.style.background = ""); 
-            navigationControl.forEach(control => control.style.background = ""); 
-            navigationControler.forEach(control => control.style.background = ""); 
-            information.forEach(info => info.style.color = ""); 
+            sunIcon.style.display = 'none';
+            moonIcon.style.display = 'flex';
+
+            navigation.forEach(nav => nav.style.background = "");
+            navigationControl.forEach(control => control.style.background = "");
+            navigationControler.forEach(control => control.style.background = "");
+            information.forEach(info => info.style.color = "");
             information01.forEach(info => {
-                info.style.background = ""; 
+                info.style.background = "";
                 info.classList.add('mt-4');
             });
-            information02.forEach(info => info.style.background = ""); 
-            information03.forEach(card => card.style.background = ""); 
-            information04.forEach(container => container.style.background = ""); 
-            information05.forEach(container => container.style.background = ""); 
-            information06.forEach(container => container.style.background = ""); 
-            information07.forEach(container => container.style.background = ""); 
-            information08.forEach(container => container.style.background = ""); 
-            information09.forEach(container => container.style.color = ""); 
-            information10.forEach(container => container.style.color = ""); 
-            information11.forEach(container => container.style.background = ""); 
-            information12.forEach(container => container.style.background = ""); 
+            information02.forEach(info => info.style.background = "");
+            information03.forEach(card => card.style.background = "");
+            information04.forEach(container => container.style.background = "");
+            information05.forEach(container => container.style.background = "");
+            information06.forEach(container => container.style.background = "");
+            information07.forEach(container => container.style.background = "");
+            information08.forEach(container => container.style.background = "");
+            information09.forEach(container => container.style.color = "");
+            information10.forEach(container => container.style.color = "");
+            information11.forEach(container => container.style.background = "");
+            information12.forEach(container => container.style.background = "");
             information12.forEach(container => container.style.color = "");
-            // information13.forEach(container => container.classList.add('mt-auto')); 
+            // information13.forEach(container => container.classList.add('mt-auto'));
             information14.forEach(container =>{
                 container.style.background = "";
                 container.style.color = "";
@@ -1897,29 +1897,29 @@ document.addEventListener('DOMContentLoaded', () => {
                 container.style.background = "";
 
             });
-            information39.forEach(container => container.style.background = ""); 
+            information39.forEach(container => container.style.background = "");
             information39.forEach(container => {
                 container.classList.remove('hover-class');
             });
-            information40.forEach(container => container.style.background = ""); 
-            information41.forEach(container => container.style.background = ""); 
-            information42.forEach(container => container.style.background = ""); 
+            information40.forEach(container => container.style.background = "");
+            information41.forEach(container => container.style.background = "");
+            information42.forEach(container => container.style.background = "");
             information39.forEach(container => {
     // Supprimez la classe qui gère le hover
     container.classList.remove('hover-class');
 });
-information43.forEach(container => container.style.background = ""); 
-information44.forEach(container => container.style.background = ""); 
-information45.forEach(container => container.style.background = ""); 
-information46.forEach(container => container.style.background = ""); 
-information47.forEach(container => container.style.color = ""); 
+information43.forEach(container => container.style.background = "");
+information44.forEach(container => container.style.background = "");
+information45.forEach(container => container.style.background = "");
+information46.forEach(container => container.style.background = "");
+information47.forEach(container => container.style.color = "");
 information48.forEach(container => container.style.color = "");
 information49.forEach(container => {
                 container.style.background = "";
                 container.style.color = "";
                 container.classList.remove('custom-placeholder');
 
-            }); 
+            });
             information50.forEach(container => {
                 container.style.color = "";
                 container.classList.remove('custom-placeholder');
@@ -1940,42 +1940,42 @@ information49.forEach(container => {
             information53.forEach(container => container.style.display = "");
 
             // information19.forEach(container => container.style.background = "");
-            information54.forEach(container => container.setAttribute('style','display:none!important;')); 
-            information55.forEach(container => container.setAttribute('style','background:;')); 
-            information56.forEach(container => container.setAttribute('style','background:;')); 
-            information57.forEach(container => container.setAttribute('style','background:;')); 
+            information54.forEach(container => container.setAttribute('style','display:none!important;'));
+            information55.forEach(container => container.setAttribute('style','background:;'));
+            information56.forEach(container => container.setAttribute('style','background:;'));
+            information57.forEach(container => container.setAttribute('style','background:;'));
 
 
             } else {
-            sunIcon.style.display = 'flex'; 
-            moonIcon.style.display = 'none';  
+            sunIcon.style.display = 'flex';
+            moonIcon.style.display = 'none';
 
 
             navigation.forEach(nav => nav.style.background = "#030D2D");
-            navigationControl.forEach(control => control.style.background = "#030D2D"); 
-            navigationControler.forEach(control => control.style.background = "#030D2D"); 
-            information.forEach(info => info.style.color = "#fff"); 
+            navigationControl.forEach(control => control.style.background = "#030D2D");
+            navigationControler.forEach(control => control.style.background = "#030D2D");
+            information.forEach(info => info.style.color = "#fff");
             information01.forEach(info => {
-                info.style.background = "#020917"; 
+                info.style.background = "#020917";
                 info.classList.remove('mt-4');
             });
-            information02.forEach(info => info.style.background = "#020917"); 
-            information03.forEach(card => card.style.background = "#030D2D"); 
-            information04.forEach(container => container.style.background = "#030D2D"); 
-            information05.forEach(container => container.style.background = "#030D2D"); 
-            information06.forEach(container => container.style.background = "#030D2D"); 
-            information07.forEach(container => container.style.background = "#030D2D"); 
-            information08.forEach(container => container.style.background = "#020917"); 
-            information09.forEach(container => container.style.color = "#fff"); 
-            information10.forEach(container => container.style.color = "#fff"); 
-            information11.forEach(container => container.style.background = "#020917"); 
-            information12.forEach(container => container.style.background = "#030D2D"); 
-            information12.forEach(container => container.style.color = "#fff"); 
+            information02.forEach(info => info.style.background = "#020917");
+            information03.forEach(card => card.style.background = "#030D2D");
+            information04.forEach(container => container.style.background = "#030D2D");
+            information05.forEach(container => container.style.background = "#030D2D");
+            information06.forEach(container => container.style.background = "#030D2D");
+            information07.forEach(container => container.style.background = "#030D2D");
+            information08.forEach(container => container.style.background = "#020917");
+            information09.forEach(container => container.style.color = "#fff");
+            information10.forEach(container => container.style.color = "#fff");
+            information11.forEach(container => container.style.background = "#020917");
+            information12.forEach(container => container.style.background = "#030D2D");
+            information12.forEach(container => container.style.color = "#fff");
             // information13.forEach(container => container.classList.remove('mt-auto'));
             information14.forEach(container =>{
                 container.style.background = "#020917";
                 container.style.color = "#fff";
-            }); 
+            });
             information15.forEach(container =>{
                 container.style.background = "#020917";
                 container.style.color = "#fff";
@@ -2014,26 +2014,26 @@ information49.forEach(container => {
             information29.forEach(container => {
                 container.style.background = "#020917";
                 container.style.color="#fff";
-            }); 
+            });
             information30.forEach(container => {
                 container.style.background = "#020917";
                 container.style.color="#fff";
-            }); 
+            });
             information31.forEach(container => {
                 container.style.background = "#030D2D";
                 container.style.color="#fff";
                 container.classList.add('custom-placeholder');
 
-            }); 
+            });
             information32.forEach(container => {
                 container.style.background = "#030D2D";
                 container.style.color="#fff";
-            }); 
+            });
             information33.forEach(container => {
                 container.style.background = "#030D2D";
                 container.style.color="#fff";
-            }); 
-            information34.forEach(container => container.style.color = "#fff"); 
+            });
+            information34.forEach(container => container.style.color = "#fff");
             information35.forEach(container => container.style.color = "#fff");
             information36.forEach(container => container.style.color = "#fff");
             information37.forEach(container => {
@@ -2050,16 +2050,16 @@ information49.forEach(container => {
             information39.forEach(container => {
     container.classList.remove('hover-class');
 });
-            information40.forEach(container => container.style.background = "#0C3B0C"); 
-            information41.forEach(container => container.style.background = "#0C3B0C"); 
-            information42.forEach(container => container.style.background = "#0C3B0C"); 
+            information40.forEach(container => container.style.background = "#0C3B0C");
+            information41.forEach(container => container.style.background = "#0C3B0C");
+            information42.forEach(container => container.style.background = "#0C3B0C");
 
-            information43.forEach(container => container.setAttribute('style','background:#030D2D!important;color:#fff!important;')); 
-            information44.forEach(container => container.setAttribute('style','background:#030D2D!important;color:#fff!important;')); 
-            information45.forEach(container => container.setAttribute('style','background:#030D2D!important;color:#fff!important;')); 
-            information46.forEach(container => container.setAttribute('style','background:#020917!important;color:#fff!important;')); 
-            information47.forEach(container => container.setAttribute('style','color:#fff!important;')); 
-            information48.forEach(container => container.setAttribute('style','color:#fff!important;')); 
+            information43.forEach(container => container.setAttribute('style','background:#030D2D!important;color:#fff!important;'));
+            information44.forEach(container => container.setAttribute('style','background:#030D2D!important;color:#fff!important;'));
+            information45.forEach(container => container.setAttribute('style','background:#030D2D!important;color:#fff!important;'));
+            information46.forEach(container => container.setAttribute('style','background:#020917!important;color:#fff!important;'));
+            information47.forEach(container => container.setAttribute('style','color:#fff!important;'));
+            information48.forEach(container => container.setAttribute('style','color:#fff!important;'));
             information49.forEach(container => {
                 container.setAttribute('style','background:#030D2D!important;');
                 container.setAttribute('style','color:#fff!important;');
@@ -2083,13 +2083,13 @@ information49.forEach(container => {
                 container.classList.add('custom-placeholders');
 
             });
-            
+
             // information19.forEach(container => container.setAttribute('style','background:#030D2D!important;'))
-            information53.forEach(container => container.setAttribute('style','display:none!important;')); 
-            information54.forEach(container => container.setAttribute('style','display:none!important;')); 
-            information55.forEach(container => container.setAttribute('style','background:#030D2D!important;')); 
-            information56.forEach(container => container.setAttribute('style','background:#030D2D!important;')); 
-            information57.forEach(container => container.setAttribute('style','background:#020917!important;')); 
+            information53.forEach(container => container.setAttribute('style','display:none!important;'));
+            information54.forEach(container => container.setAttribute('style','display:none!important;'));
+            information55.forEach(container => container.setAttribute('style','background:#030D2D!important;'));
+            information56.forEach(container => container.setAttribute('style','background:#030D2D!important;'));
+            information57.forEach(container => container.setAttribute('style','background:#020917!important;'));
 
 
 
