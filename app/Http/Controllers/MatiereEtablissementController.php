@@ -28,6 +28,8 @@ class MatiereEtablissementController extends Controller
             ->select(
                 'm.id AS matiere_id',  // ID de la matière
                 'n.code AS codeniveau',
+                'ef.filiere_id',
+                'em.niveau_id',
                 DB::raw('COALESCE(em.nommatieretablissement, m.nommatiere) AS nommatiere'),
                 DB::raw('COALESCE(em.code, m.code) AS code'),
                 'em.id AS etablissement_matiere_id',  // ID de la relation dans etablissement_matiere
@@ -50,7 +52,9 @@ class MatiereEtablissementController extends Controller
                 'ef.nomfilieretablissement',
                 'f.nomfiliere',
                 'n.code',
-                'm.code'
+                'm.code',
+                'ef.filiere_id',
+                'em.niveau_id'
             );
 
         // Requête pour récupérer les matières uniquement dans etablissement_matiere
@@ -66,6 +70,8 @@ class MatiereEtablissementController extends Controller
                 'em.id AS etablissement_matiere_id',  // ID de la relation dans etablissement_matiere
                 'em.active',
                 'n.code AS codeniveau',
+                'ef.filiere_id',
+                'em.niveau_id',
                 DB::raw('IFNULL(em.coefficient, 1) AS coefficient'),
                 DB::raw('IFNULL(em.credit, 0) AS credit'),
                 DB::raw('IFNULL(em.volumehoraire, 0) AS volumehoraire'),
@@ -83,6 +89,8 @@ class MatiereEtablissementController extends Controller
                 'ef.nomfilieretablissement',
                 'f.nomfiliere',
                 'n.code',
+                'ef.filiere_id',
+                'em.niveau_id',
             );
 
         // Union des deux requêtes

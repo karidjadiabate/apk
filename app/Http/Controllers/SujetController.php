@@ -7,6 +7,7 @@ use App\Http\Requests\StoreSujetRequest;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 use App\Http\Requests\UpdateSujetRequest;
 use App\Models\Classe;
+use App\Models\EtablissementFiliere;
 use App\Models\Filiere;
 use App\Models\Matiere;
 use App\Models\TypeSujet;
@@ -37,7 +38,7 @@ class SujetController extends Controller
 
         return view('admin.sujet.listesujet',compact('listesujets'));
     }
-    
+
      /**
      * Show the form for creating a new resource.
      */
@@ -53,7 +54,7 @@ class SujetController extends Controller
 
         $filiere = new Filiere();
 
-        $filieres = $filiere->listefilierebyecole();
+        $filieres = EtablissementFiliere::with('filiere')->where('active', 1)->where('etablissement_id', $ecoleId)->get();
 
         if ($userRole === 2) {
             // Si l'utilisateur est un professeur, récupérer les classes qu'il enseigne dans son école
@@ -78,8 +79,8 @@ class SujetController extends Controller
 
         } else {
             // Pour les autres rôles d'utilisateurs, ne pas afficher de classes
-            $classes = collect(); 
-            $professeurMatiere = null; 
+            $classes = collect();
+            $professeurMatiere = null;
         }
 
         $cycleIds = [];
@@ -137,7 +138,7 @@ class SujetController extends Controller
         // Calculer le total des points des réponses
         $totalPoints = 0;
         // Récupérer les fichiers
-        
+
         $files = $request->file('sections', []);
         foreach ($request->input('sections', []) as $sectionKey => $section) {
             foreach ($section['questions'] as $question) {
@@ -178,7 +179,7 @@ class SujetController extends Controller
                         $files[$sectionKey]['soustitre']['image']->move(public_path('images'), $newSectionImageName);
                         $sectionImage = 'images/' . $newSectionImageName;
                     }
- 
+
                     // Sauvegarder la section avec l'image si elle existe
                     $section = $subject->sections()->create([
                         'titre' => $sectionData['titre'],
@@ -205,13 +206,13 @@ class SujetController extends Controller
                             ]);
 
                         foreach ($questionData['reponses'] ?? [] as $answerData) {
-                            
+
                             if (!empty($answerData['libreponse'])) {
                                 // Assurez-vous que la valeur de `result` est correcte avant d'insérer
                                 $resultValue = in_array($answerData['result'], ['bonne_reponse', 'mauvaise_reponse', 'mauvaise_reponse-']) ? $answerData['result'] : null;
                                 $question->reponses()->create([
                                     'libreponse' => $answerData['libreponse'],
-                                    'result' => $resultValue, 
+                                    'result' => $resultValue,
                                     'points' => isset($answerData['points']) ? intval($answerData['points']) : 0,
                                     'is_correct' => $answerData['result'] === 'bonne_reponse',
                                     'user_id' => auth()->user()->id
@@ -234,10 +235,10 @@ class SujetController extends Controller
 
 //Générer le code Qr
     public function generateRandomCode() {
-        $numbers = mt_rand(100, 999); 
+        $numbers = mt_rand(100, 999);
         $letters = '';
         for ($i = 0; $i < 2; $i++) {
-            $letters .= chr(mt_rand(65, 90)); 
+            $letters .= chr(mt_rand(65, 90));
         }
             return $numbers . $letters;
     }
@@ -245,29 +246,29 @@ class SujetController extends Controller
     public function generateRandomSubjects($originalSubject, $nbrSubjects)
     {
         $randomSubjects = [];
-    
+
         /*for ($i = 0; $i < $nbrSubjects; $i++) {
         }*/
             $newSubject = clone $originalSubject;
             $newSubject->sections = new Collection();
-    
+
             // Créer une copie des sections et les mélanger
             $shuffledSections = $originalSubject->sections->shuffle();
-    
+
             foreach ($shuffledSections as $originalSection) {
                 $newSection = clone $originalSection;
-    
+
                 // Mélanger les questions au sein de la section
                 $newSection->questions = $originalSection->questions->shuffle();
-    
+
                 // Mélanger les réponses pour chaque question
                 $newSection->questions->each(function ($question) {
                     $question->reponses = $question->reponses->shuffle();
                 });
-    
+
                 $newSubject->sections->push($newSection);
             }
-    
+
             // Générer une référence unique pour ce sujet
             $reference = $this->generateRandomCode();
             $newSubject->reference = $reference;
@@ -279,52 +280,52 @@ class SujetController extends Controller
             $qrCodeContent = "Ref: $reference | Établissement: $nometablissement | Matière: $matiere | Filière: $filiere | Classe: $classe";
 
             $qrCode = QrCode::size(150)->generate($qrCodeContent);
-    
+
             // Enregistrer la référence et le QR code dans la base de données
             /*$savedQrCode = DB::table('subject_qrcodes')->insertGetId([
-                'subject_id' => $newSubject->id, 
+                'subject_id' => $newSubject->id,
                 'reference' => $reference,
-                'qrcode' => $qrCodeContent,  
+                'qrcode' => $qrCodeContent,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]);*/
-    
+
             // Assigner le QR code généré au nouveau sujet
             $newSubject->qrCode = $qrCode;
-    
+
             $randomSubjects[] = $newSubject;
 
-    
+
         return $randomSubjects;
     }
-    
+
 
     public function voirPage($id)
     {
         // Récupération du sujet avec les relations nécessaires
         $sujet = Sujet::with([
-            'classe', 
-            'classe.filiere', 
-            'classe.filiere.niveau', 
-            'etablissement', 
-            'matiere', 
-            'typeSujet', 
-            'sections.questions.reponses' 
+            'classe',
+            'classe.filiere',
+            'classe.filiere.niveau',
+            'etablissement',
+            'matiere',
+            'typeSujet',
+            'sections.questions.reponses'
         ])->findOrFail($id);
-    
+
         // Récupération des QR codes et des références associés à ce sujet
        /* $qrCodes = DB::table('subject_qrcodes')
                         ->where('subject_id', $id)
                         ->get(['reference', 'qrcode']);*/
-    
+
         // Récupération du classe_id du sujet
         $classeId = $sujet->classe_id;
-    
-        // Nombre de sujets 
+
+        // Nombre de sujets
         $userCount = User::where('role_id', 2)
                         ->where('classe_id', $classeId)
                         ->count();
-    
+
         // Création des données pour le sujet affiché
         $dataAtributes = [
             'nometablissement' => $sujet->etablissement->nometablissement ?? 'Non spécifié',
@@ -337,7 +338,7 @@ class SujetController extends Controller
             'consigne' => $sujet->consigne,
             'sections' => $sujet->sections,
         ];
-    
+
         // Calcul des points pour chaque section du sujet actuel
         foreach ($dataAtributes['sections'] as $section) {
             $section->total_points = $this->calculatePoints($section->questions);
@@ -346,13 +347,13 @@ class SujetController extends Controller
 
         // Retourne les données à la vue, y compris les QR codes et références récupérés
         return view('admin.sujet.show', compact('dataAtributes', 'randomSubjects'));
-    }    
+    }
 
     // Fonction pour calculer les points
     private function calculatePoints($questions)
     {
         $totalPoints = 0;
-    
+
         foreach ($questions as $question) {
             foreach ($question->reponses as $reponse) {
                 // Ajoute les points de la réponse si elle est correcte
@@ -361,41 +362,41 @@ class SujetController extends Controller
                 }
             }
         }
-    
+
         return $totalPoints;
     }
-    
+
     public function details($id){
         $sujet = Sujet::with([
-            'classe', 
-            'classe.filiere', 
-            'classe.filiere.niveau', 
-            'etablissement', 
-            'matiere', 
-            'typeSujet', 
-            'sections.questions.reponses' 
+            'classe',
+            'classe.filiere',
+            'classe.filiere.niveau',
+            'etablissement',
+            'matiere',
+            'typeSujet',
+            'sections.questions.reponses'
         ])->findOrFail($id);
-    
+
         // Récupération du classe_id du sujet
         $classeId = $sujet->classe_id;
-    
-        // Nombre de sujet 
+
+        // Nombre de sujet
         $userCount = User::where('role_id', 2)
                         ->where('classe_id', $classeId)
                         ->count();
-                        
+
         // Création des données pour le sujet affiché
         $dataAtributes = [
             'typesujet' => $sujet->typeSujet->libtypesujet ?? 'Non spécifié',
             'matiere' => $sujet->matiere->nommatiere ?? 'Non spécifié',
-            'filiere' => $sujet->classe->filiere->nomfiliere ?? 'Non spécifié',
+            'filiere' => $sujet->filiere->etablissementFilieres->nomfilieretablissement ?? 'Non spécifié',
             'classe' => $sujet->classe->nomclasse ?? 'Non spécifié',
             'heure' => $sujet->heure,
             'noteprincipale' => $sujet->noteprincipale,
             'consigne' => $sujet->consigne,
             'sections' => $sujet->sections,
         ];
-    
+
         // Calcul des points pour chaque section du sujet actuel
         foreach ($dataAtributes['sections'] as $section) {
             $section->total_points = $this->calculatePoints($section->questions);
@@ -410,7 +411,7 @@ class SujetController extends Controller
         return view('admin.sujet.details', compact('dataAtributes'));
     }
 
-  
+
     /**
      * Display the specified resource.
      */

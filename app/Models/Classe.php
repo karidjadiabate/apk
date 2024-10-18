@@ -41,7 +41,7 @@ class Classe extends Model
             ->select(
                 'c.id',
                 'f.nomfiliere',
-                'c.code',
+                'c.code AS codeclasse',
                 'n.code AS codeniveau',
                 'n.code',
                 'c.nomclasse',
