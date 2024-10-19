@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('libquestion');
             $table->foreignIdFor(Section::class)->onDelete('cascade');
             $table->foreignIdFor(User::class);
+            $table->string('image_question')->nullable();
             $table->timestamps();
         });
     }

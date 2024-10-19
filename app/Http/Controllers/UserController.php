@@ -227,6 +227,7 @@ class UserController extends Controller
             $user->genre = $request->genre;
             $user->datenaiss = $request->datenaiss;
             $user->adresse = $request->adresse;
+            $user->filiere_id = $request->filiere_id;
         } elseif ($user->role_id == 2) {
             if (is_array($request->matiere_id)) {
                 $user->matiere_id = implode(',', $request->matiere_id);

@@ -23,13 +23,13 @@
             margin: 10rem auto;
             padding: 0;
             width: 21cm;
-            height: 29.7cm; 
+            height: 29.7cm;
         }
         .header {
             display: flex;
             align-items: center;
             justify-content: space-between;
-           /* border: 1px solid #cfd0e5; */ 
+           /* border: 1px solid #cfd0e5; */
            /* padding: 0 2mm 5mm 2mm;*/
             margin-bottom: 10px;
             flex-wrap: wrap;
@@ -40,20 +40,26 @@
         }
         .title {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 2mm;
             background-color: rgb(244, 244, 243);
             border-bottom-left-radius: 5mm;
             border-bottom-right-radius: 5mm;
             display: flex;
             justify-content: center;
+            align-items: center;
             flex-direction: column;
+            width: 80%;
+            max-width: 460px;
+            margin: 0 auto;
+            padding: 10px;
         }
+
         .devoir {
             width: 100%;
             margin-bottom: 2mm;
             display: flex;
-            justify-content: start;
+            justify-content: center;
         }
         .devoir-text {
             font-weight: bold;
@@ -61,7 +67,9 @@
             padding: 2mm 35mm;
             margin-bottom: 1mm;
             font-size: 14px !important;
+            text-transform: uppercase;
         }
+
         .devtitle {
             width: 50%;
             margin: 0 auto;
@@ -72,6 +80,9 @@
         .left-title {
             font-weight: 300;
             font-size: 14px !important;
+            margin-right: 5px; /* pour espacer le texte du titre de la valeur */
+            padding-top: 1px;
+
         }
         .info {
             display: flex;
@@ -79,7 +90,7 @@
             text-align: left;
             font-size: 13px;
         }
-        
+
         .points{
             float:right;
         }
@@ -105,13 +116,13 @@
             justify-content: space-between;
             flex-direction:column;
         }
-        
+
         .exercise-image{
             text-align: center;
             width: 100%;
             margin: 10px;
         }
-        
+
         .question {
             display: flex;
             justify-content: space-between;
@@ -126,11 +137,11 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 10px; 
+            gap: 10px;
             width: 100%;
         }
         .question-text {
-            flex: 1; 
+            flex: 1;
             font-size: 1rem;
             color: #333;
         }
@@ -205,12 +216,12 @@
             height:100px;
         }
         .subject-wrapper {
-            min-height: calc(29.7cm - 100px); 
-            padding-bottom: 100px; 
+            min-height: calc(29.7cm - 100px);
+            padding-bottom: 100px;
         }
         .page{
             width: 21cm;
-            height: 29.7cm; 
+            height: 29.7cm;
             position:relative;
             border: 1px solid #cfd0e5;
             margin-bottom: 20px;
@@ -220,60 +231,60 @@
         }
         .page-footer {
             height: 100px;
-            background-color: white; 
+            background-color: white;
         }
-  
+
         @page {
         margin: 0;
         size: A4;
         }
-  
-@media print {         
-    body { 
-        position: relative; 
-         margin: 0;
-         padding: 0;
-         height: 29.7cm;
-         width: 21cm;
-        } 
-        .subject-wrapper { 
-            height: calc(100% - 50px);
+
+        @media print {
+            body {
+                position: relative;
+                margin: 0;
+                padding: 0;
+                height: 29.7cm;
+                width: 21cm;
+                }
+                .subject-wrapper {
+                    height: calc(100% - 50px);
+                }
+                .footer-wrapper {
+                    position: absolute;
+                    bottom: 5mm;
+                    left: 0;
+                    right: 0;
+                    height: 50px;
+                }
+                .page{
+                    page-break-after: always;
+                    padding: 0 5mm 0 5mm;
+                    margin: 0 auto;
+                    box-sizing: border-box;
+                    border: none;
+                }
+                .top-space{
+                    padding-top:10mm;
+                }
+                .page-footer {
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: flex-end;
+                }
+                .qr-code {
+                    page-break-inside: avoid;
+                }
+                .qr-code svg {
+                    width: 75px;
+                    height: 75px;
+                }
+                .page {
+                page-break-after: always;
+                }
+
         }
-        .footer-wrapper {
-            position: absolute;
-            bottom: 5mm;
-            left: 0; 
-            right: 0;
-            height: 50px;
-        }
-        .page{
-              page-break-after: always;
-              padding: 0 5mm 0 5mm;
-              margin: 0 auto;
-              box-sizing: border-box;
-              border: none;
-        } 
-        .top-space{
-             padding-top:10mm;
-        }
-        .page-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-        } 
-        .qr-code {
-            page-break-inside: avoid;
-        } 
-        .qr-code svg {
-            width: 75px;
-            height: 75px;
-        }
-        .page { 
-           page-break-after: always;
-        } 
-   
-}
-    </style>
+</style>
 </head>
 <body>
         <!-- header -->
@@ -283,20 +294,37 @@
         <div class="subject-wrapper">
             <div class="subject-content">
 
+                {{-- Formatage de la durée --}}
+                @php
+                    $duree = $dataAtributes['heure'];
+                    list($heure, $minutes) = explode(':', $duree);
+                @endphp
                     <div class="header">
                         <div class="logo"><img src="{{ asset('images/pigier.png') }}" height="50" width="auto" alt=""></div>
-                        <div class="title"> 
+                        <div class="title">
                             <div class="devoir"><span class="devoir-text">{{ $dataAtributes['typesujet'] }}</span></div>
                             <div class="devtitle">
-                                <div class="devoir"><span class="left-title">Matière :</span> {{ $dataAtributes['matiere'] }}</div>
-                                <div class="devoir"><span class="left-title">Filière :</span> {{ $dataAtributes['filiere'] }}</div>
+                                <div class="devoir"><span class="left-title">Matière :</span> {{ strtoupper($dataAtributes['matiere']) }}</div>
+                                <div class="devoir"><span class="left-title">Filière :</span> {{ strtoupper($dataAtributes['filiere']) }}</div>
+
                             </div>
                         </div>
                         <div class="info">
                             <div>Classe :<span class="info-text"> {{ $dataAtributes['classe'] }}</span></div>
-                            <div>Durée : <span class="info-text"> {{ $dataAtributes['heure'] }}</span></div>
-                            <div>Coefficient : <span class="info-text">1</span></div>
-                            <div>ECT : <span class="info-text">1</span></div>
+                            <div>
+                                Durée :
+                                <span class="info-text">
+                                    @if ($heure > 0)
+                                        {{ $heure }} h {{ $minutes }} min
+                                    @elseif ($minutes > 0)
+                                        {{ $minutes }} min
+                                    @else
+                                        0min
+                                    @endif
+                                </span>
+                            </div>
+                            <div>Coefficient : <span class="info-text">{{ $coefficient }}</span></div>
+                            <div>ECT : <span class="info-text">{{$ects}}</span></div>
                         </div>
                     </div>
 
@@ -364,7 +392,7 @@
                                         {!! $dataAtributes['qrCode'] !!}
                                     {{ $dataAtributes['reference'] }}
                                     </div>
-                                </div> 
+                                </div>
                         </div>
                     </div>
                 </div>
@@ -386,7 +414,7 @@ const A4_HEIGHT_MM = 297;
 const A4_WIDTH_MM = 210;
 const CONTENT_MARGIN_MM = 20;
 const AVAILABLE_HEIGHT_MM = A4_HEIGHT_MM - (2 * CONTENT_MARGIN_MM);
-const MM_TO_PX_RATIO = 3.779527559;  
+const MM_TO_PX_RATIO = 3.779527559;
 
 function mmToPx(mm) {
     return mm * MM_TO_PX_RATIO;

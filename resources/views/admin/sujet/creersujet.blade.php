@@ -51,40 +51,49 @@
         }
         .title {
             font-weight: bold;
-            font-size: 16px;
+            font-size: 14px;
             margin-bottom: 2mm;
             background-color: rgb(244, 244, 243);
             border-bottom-left-radius: 5mm;
             border-bottom-right-radius: 5mm;
             display: flex;
-            justify-content:center;
+            justify-content: center;
+            align-items: center;
             flex-direction: column;
+            width: 80%;
+            max-width: 400px;
+            margin: 0 auto;
+            padding: 10px;
         }
-        .devoir{
+
+        .devoir {
             width: 100%;
             margin-bottom: 2mm;
             display: flex;
-            justify-content: start;
+            justify-content: center;
         }
-        .devoir-text{
+        .devoir-text {
             font-weight: bold;
             margin-top: 0;
             padding: 2mm 35mm;
             margin-bottom: 1mm;
-            font-size:14px !important;
+            font-size: 14px !important;
+            text-transform: uppercase;
         }
 
-        .devtitle{
+        .devtitle {
             width: 50%;
             margin: 0 auto;
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-
-        .left-title{
+        .left-title {
             font-weight: 300;
-            font-size:14px !important;
+            font-size: 14px !important;
+            margin-right: 5px; /* pour espacer le texte du titre de la valeur */
+            padding-top: 1px;
+
         }
         .info {
             display: flex;
@@ -261,6 +270,19 @@
             margin-top: 30px;
             text-align: center;
         }
+
+        .page-footer {
+            position: absolute;
+            bottom: 0;
+            left: .5cm;
+            right: .5cm;
+            height:100px;
+            height: 100px;
+            background-color: white;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
         li{
             list-style: none;
         }
@@ -357,7 +379,8 @@
         </div>
     @endif
 
-    @if (intval(auth()->user()->role_id) === 2)
+
+    @if (auth()->user()->role_id == 2)
         <form action="{{ route('sujetprofesseur.store') }}" class="form" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-step form-step-active">
@@ -382,11 +405,8 @@
                             <option value="" disabled selected hidden>
                                 Sélectionner la matière
                             </option>
-                            @if (intval(auth()->user()->role_id) === 3)
-                                @foreach ($matieres as $matiere)
-                                    <option value="{{ $matiere->id }}" data-matiere = "{{ $matiere->nommatiere }}">{{ $matiere->nommatiere }}</option>
-                                @endforeach
-                            @elseif(intval(auth()->user()->role_id) === 2)
+
+                            @if(auth()->user()->role_id == 2)
                                 @foreach ($professeurMatiere as $matiere)
                                     <option value="{{ $matiere->id }}" data-matiere ="{{ $matiere->nommatiere }}">{{ $matiere->nommatiere }}</option>
                                 @endforeach
@@ -403,7 +423,7 @@
                                 Sélectionnez la Filière
                             </option>
                             @foreach ($filieres as $filiere)
-                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->nomfiliere }}">{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
+                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}">{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
                             @endforeach
                         </select>
                         <span class="border"></span>
@@ -435,21 +455,23 @@
                         <input type="text" name="consigne" id="consigne" class="time-effect-1"
                             placeholder="Entrez une consigne..."  required />
                         <span class="border"></span>
-                        <div class="error-message" id="positions2-error" style="display: none; color: red;">Veuillez
+                        <div class="error-message" id="positions5-error" style="display: none; color: red;">Veuillez
                             rempli les consignes.</div>
-                    </div>
-                    <div class="">
+                    </div><br>
+                    <div class="next-step">
                     <a href="#" class="btn btn-next width-24 ml-auto disabled" id="suivants">Suivant</a>
                 </div>
                 </div>
+
+
             </div>
 
             <div class="form-step">
                 <div class="note-container">
                     <span>Note:</span>
                     <input type="number" name="noteprincipale" class="note-value"
-                        placeholder="Entrez le nombre total de points *" pattern="\d*" title="Veuillez entrer uniquement des chiffres." />
-                    <a class="enfant_suivant disabled">Valider</a>
+                        placeholder="Entrez le nombre total de points *" pattern="\d*" title="Veuillez entrer uniquement des chiffres."/>
+                    <a class="enfant_suivant width-24 disabled">Valider</a>
                     <div class="error-message" id="error-message">Le champ ne peut pas être vide.</div>
                     <div class="btns-group avancer">
                         <a href="#" class="btn-prev">Précédent</a>
@@ -458,6 +480,7 @@
                 </div>
 
                 <div class="frm" style="display: none">
+
                     <div class="sa">
                         <div class="btnas-ends">
                             <i class="fa-solid fa-x delete-questionnaires"></i>
@@ -484,7 +507,7 @@
                             </div>
                             <div class="sa-1">
                                 <div class="questionnaire-container">
-                                    <div class="input-group"  data-question-index="0">
+                                    <div class="input-group" data-question-index="0">
                                         <div class="questionnaire">
                                             <div class="input-group">
                                                 <div class="display-1">
@@ -515,7 +538,6 @@
                                                         <input type="text" class="heckbox-reponce" id="checkbox1"
                                                             name="sections[0][questions][0][reponses][0][libreponse]"
                                                             required placeholder="reponse 1" />
-
                                                         <input type="file" id="imagine" class="file-input"
                                                             data-preview="imaginations" name="sections[0][questions][0][reponses][0][image]"
                                                             style="display: none" />
@@ -540,7 +562,7 @@
                                                         </select>
                                                         <input type="number" id="point" class="point"
                                                             name="sections[0][questions][0][reponses][0][points]"
-                                                             placeholder="" />
+                                                            placeholder="" />
                                                         <i class="fa-regular fa-trash-can delete delete-btn"></i>
                                                     </li>
                                                 </ol>
@@ -568,20 +590,23 @@
 
                     <div class="btns-group">
                         <a href="#" class="btn-prev">Précédent</a>
-                        <a href="#" class="btn btn-next width-24">Suivant</a>
+                        <a href="#" class="btn btn-next width-24 endnext endnexts1 disabled">Suivant</a>
                     </div>
                 </div>
             </div>
+
             <div class="form-step">
+                <div class="content"><!-- Contenu de la page --></div>
                 <div class="btns-group">
                     <a href="#" class="btn-prev">Précédent</a>
-                    <button type="buuton" class="btn btn-next termine">Terminé</button>
+                    <button type="submit" class="btn">Terminé</button>
                 </div>
             </div>
+
         </form>
 
 
-    @elseif(intval(auth()->user()->role_id) === 3)
+    @elseif(auth()->user()->role_id == 3)
         <form action="{{ route('sujetadmin.store') }}" class="form" method="POST" enctype="multipart/form-data">
             @csrf
             <div class="form-step form-step-active">
@@ -627,7 +652,7 @@
                                 Sélectionnez la Filière
                             </option>
                             @foreach ($filieres as $filiere)
-                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->nomfiliere }}">{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
+                                <option value="{{ $filiere->id }}" data-filiere="{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}">{{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
                             @endforeach
                         </select>
                         <span class="border"></span>
@@ -834,56 +859,56 @@
 
     <script>
 
-function validateSection(sectionElement) {
-    // Vérification du titre et du sous-titre
-    const titreInput = sectionElement.querySelector('input[name$="[titre]"]');
-    const sousTitreInput = sectionElement.querySelector('input[name$="[soustitre]"]');
-    console.log(titreInput);
-    console.log(sousTitreInput);
-    if (!titreInput || !sousTitreInput || !titreInput.value.trim() || !sousTitreInput.value.trim()) {
-        console.log("Titre ou sous-titre manquant");
-        return false;
-    }
-
-    const questions = sectionElement.querySelectorAll('.questionnaire');
-
-    if (questions.length === 0) {
-        console.log("Aucune question trouvée");
-        return true;
-    }
-
-    for (let question of questions) {
-        const reponses = question.querySelectorAll('.circle-list li');
-
-        if (reponses.length === 0) {
-            console.log("Aucune réponse trouvée pour une question");
-            return false;
-        }
-
-        for (let reponse of reponses) {
-            const libreponseInput = reponse.querySelector('input[name$="[libreponse]"]');
-            const resultSelect = reponse.querySelector('select[name$="[result]"]');
-            const pointsInput = reponse.querySelector('input[name$="[points]"]');
-            const fileInput = reponse.querySelector('input[type="file"]');
-
-            if (!libreponseInput || !resultSelect || !pointsInput || !fileInput) {
-                console.log("Champs manquants dans une réponse");
+        function validateSection(sectionElement) {
+            // Vérification du titre et du sous-titre
+            const titreInput = sectionElement.querySelector('input[name$="[titre]"]');
+            const sousTitreInput = sectionElement.querySelector('input[name$="[soustitre]"]');
+            console.log(titreInput);
+            console.log(sousTitreInput);
+            if (!titreInput || !sousTitreInput || !titreInput.value.trim() || !sousTitreInput.value.trim()) {
+                console.log("Titre ou sous-titre manquant");
                 return false;
             }
 
-            const libreponse = libreponseInput.value.trim();
-            const result = resultSelect.value;
-            const points = pointsInput.value.trim();
+            const questions = sectionElement.querySelectorAll('.questionnaire');
 
-            if ((!libreponse && !fileInput.files.length) || !result || !points) {
-                console.log("Champs requis non remplis dans une réponse");
-                return false;
+            if (questions.length === 0) {
+                console.log("Aucune question trouvée");
+                return true;
             }
-        }
-    }
 
-    return true;
-}
+            for (let question of questions) {
+                const reponses = question.querySelectorAll('.circle-list li');
+
+                if (reponses.length === 0) {
+                    console.log("Aucune réponse trouvée pour une question");
+                    return false;
+                }
+
+                for (let reponse of reponses) {
+                    const libreponseInput = reponse.querySelector('input[name$="[libreponse]"]');
+                    const resultSelect = reponse.querySelector('select[name$="[result]"]');
+                    const pointsInput = reponse.querySelector('input[name$="[points]"]');
+                    const fileInput = reponse.querySelector('input[type="file"]');
+
+                    if (!libreponseInput || !resultSelect || !pointsInput || !fileInput) {
+                        console.log("Champs manquants dans une réponse");
+                        return false;
+                    }
+
+                    const libreponse = libreponseInput.value.trim();
+                    const result = resultSelect.value;
+                    const points = pointsInput.value.trim();
+
+                    if ((!libreponse && !fileInput.files.length) || !result || !points) {
+                        console.log("Champs requis non remplis dans une réponse");
+                        return false;
+                    }
+                }
+            }
+
+            return true;
+        }
 
         document.body.addEventListener('change', function(event) {
             if (event.target && event.target.classList.contains('file-input')) {
@@ -978,53 +1003,53 @@ function validateSection(sectionElement) {
             }
 
             function attachResponseEvent(sectionElement) {
-    const addResponseButton = sectionElement.querySelector(".add-response");
-    if (addResponseButton) {
-        addResponseButton.addEventListener("click", function(event) {
-            event.preventDefault();
-            const sectionContainer = event.currentTarget.closest('.form');
-            var errormsg = document.querySelector('.msg-error');
-            errormsg.textContent = "";
-            errormsg.style.display = "none";
+                const addResponseButton = sectionElement.querySelector(".add-response");
+                if (addResponseButton) {
+                    addResponseButton.addEventListener("click", function(event) {
+                        event.preventDefault();
+                        const sectionContainer = event.currentTarget.closest('.form');
+                        var errormsg = document.querySelector('.msg-error');
+                        errormsg.textContent = "";
+                        errormsg.style.display = "none";
 
-            // Vérifier s'il y a déjà 4 réponses
-            const existingResponses = sectionElement.querySelectorAll(".heckbox-reponce");
-            if (existingResponses.length >= 4) {
-                errormsg.style.display = "block";
-                errormsg.textContent = "Vous ne pouvez pas ajouter plus de 4 réponses.";
-                return;  // Empêche l'ajout d'une nouvelle réponse
+                        // Vérifier s'il y a déjà 4 réponses
+                        const existingResponses = sectionElement.querySelectorAll(".heckbox-reponce");
+                        if (existingResponses.length >= 4) {
+                            errormsg.style.display = "block";
+                            errormsg.textContent = "Vous ne pouvez pas ajouter plus de 4 réponses.";
+                            return;  // Empêche l'ajout d'une nouvelle réponse
+                        }
+
+                        if (!validateSection(sectionContainer)) {
+                            errormsg.style.display = "block";
+                            errormsg.textContent = "Veuillez remplir tous les champs requis avant d'ajouter une nouvelle réponse.";
+                            return;
+                        }
+
+                        const list = sectionElement.querySelector(".circle-list");
+                        const newItem = document.createElement("li");
+                        const questionIndex = $(this).closest('.input-group').parents().eq(1).data('question-index');
+                        const responseIndex = list.children.length;
+
+                        newItem.innerHTML = `
+                            <input type="text" class="heckbox-reponce" name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][libreponse]" placeholder="réponse ${responseIndex + 1}" required />
+                            <input type="file" id="imagine${counters.file++}" class="file-input" data-preview="revange${counters.image++}" name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][image]" style="display: none" />
+                            <img id="revange${counters.image++}" class="img" alt="" />
+                            <select name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][result]" id="responseselect${counters.section}${++counters.response}" class="Select">
+                                <option value="" disabled selected hidden>résultat</option>
+                                <option value="bonne_reponse" class="green" data-target="1">Bonne réponse</option>
+                                <option value="mauvaise_reponse" class="yellow" data-target="2">Mauvaise réponse</option>
+                                <option value="mauvaise_reponse-" class="red" data-target="3">Mauvaise réponse(-)</option>
+                            </select>
+                            <input type="number" class="point" name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][points]" placeholder="" />
+                            <i class="fa-regular fa-trash-can delete delete-btn"></i>`;
+
+                        list.appendChild(newItem);
+                        attachDeleteEvent(newItem);
+                        newItem.querySelector('.Select').addEventListener("change", handleSelectChanges);
+                    });
+                }
             }
-
-            if (!validateSection(sectionContainer)) {
-                errormsg.style.display = "block";
-                errormsg.textContent = "Veuillez remplir tous les champs requis avant d'ajouter une nouvelle réponse.";
-                return;
-            }
-
-            const list = sectionElement.querySelector(".circle-list");
-            const newItem = document.createElement("li");
-            const questionIndex = $(this).closest('.input-group').parents().eq(1).data('question-index');
-            const responseIndex = list.children.length;
-
-            newItem.innerHTML = `
-                <input type="text" class="heckbox-reponce" name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][libreponse]" placeholder="réponse ${responseIndex + 1}" required />
-                <input type="file" id="imagine${counters.file++}" class="file-input" data-preview="revange${counters.image++}" name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][image]" style="display: none" />
-                <img id="revange${counters.image++}" class="img" alt="" />
-                <select name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][result]" id="responseselect${counters.section}${++counters.response}" class="Select">
-                    <option value="" disabled selected hidden>résultat</option>
-                    <option value="bonne_reponse" class="green" data-target="1">Bonne réponse</option>
-                    <option value="mauvaise_reponse" class="yellow" data-target="2">Mauvaise réponse</option>
-                    <option value="mauvaise_reponse-" class="red" data-target="3">Mauvaise réponse(-)</option>
-                </select>
-                <input type="number" class="point" name="sections[${counters.section - 1}][questions][${questionIndex}][reponses][${responseIndex}][points]" placeholder="" />
-                <i class="fa-regular fa-trash-can delete delete-btn"></i>`;
-
-            list.appendChild(newItem);
-            attachDeleteEvent(newItem);
-            newItem.querySelector('.Select').addEventListener("change", handleSelectChanges);
-        });
-    }
-}
 
 
             function attachDeleteEvent(element) {
@@ -1302,11 +1327,14 @@ function validateSection(sectionElement) {
             document.querySelectorAll(".sectio-container").forEach(attachAllEvents);
         });
 
+
+
         $(document).ready(function () {
             let formData = new FormData();
             var dataAtributes = {};
             var structuredData = null;
             var fileReadPromises = [];
+
 
             var structuredData = null;
 
@@ -1318,11 +1346,20 @@ $(".btn-next").click(function (e) {
     var fileReadPromises = [];
     var dataAtributes = {};
     var button = $(this);
+    var coefficient;
+    var ects;
+    var matiereId = $('#positions').val();
+
 
     // Collecte des données
     $('.form-step').find('input, select, textarea').each(function() {
         var inputName = $(this).attr('name');
         var inputValue = $(this).val();
+
+         // Ajouter la durée dans FormData
+        if (inputName === 'heure') {
+            formData.append(inputName, inputValue);
+        }
 
         // Vérifier si l'input est de type 'file'
         if ($(this).attr('type') === 'file' && this.files.length > 0) {
@@ -1354,8 +1391,27 @@ $(".btn-next").click(function (e) {
             });
         }
     });
+    console.log(dataAtributes);
+
     Promise.all(fileReadPromises).then(function() {
         if (button.hasClass('endnext')) {
+
+            $.ajax({
+                url: '{{ route('recuperer.coefficient.ects', ':id') }}'.replace(':id', matiereId),
+                method: 'GET',
+                success: function(response) {
+                    if (response.coefficient !== undefined) {
+                        dataAtributes.coefficient = response.coefficient;
+                    } else {
+                        dataAtributes.coefficient = 0;
+                    }
+
+                    if (response.ects !== undefined) {
+                        dataAtributes.ects = parseFloat(response.ects);
+                    } else {
+                        dataAtributes.ects = 0;
+                    }
+
             structuredData = structureData(formData);
 
             var counter = 1;
@@ -1366,15 +1422,16 @@ $(".btn-next").click(function (e) {
                         <div class="title">
                             <div class="devoir"><span class="devoir-text">${dataAtributes.typesujet}</span></div>
                             <div class="devtitle">
-                                <div class="devoir"><span class="left-title">Matière :</span> ${dataAtributes.matiere}</div>
-                                <div class="devoir"><span class="left-title">Filière :</span> ${dataAtributes.filiere}</div>
+                                <div class="devoir"><span class="left-title">Matière :</span> ${dataAtributes.matiere.toUpperCase()}</div>
+                                <div class="devoir"><span class="left-title">Filière :</span> ${dataAtributes.filiere.toUpperCase()}</div>
+
                             </div>
                         </div>
                         <div class="info">
                             <div>Classe :<span class="info-text"> ${dataAtributes.classe}</span></div>
-                            <div>Durée : <span class="info-text"> ${dataAtributes.heure}</span></div>
-                            <div>Coefficient : <span class="info-text">1</span></div>
-                            <div>ECT : <span class="info-text">1</span></div>
+                            <div>Durée : <span class="info-text">${formData.get('heure')}</span></div>
+                            <div>Coefficient : <span class="info-text">${dataAtributes.coefficient}</span></div>
+                            <div>ECTS : <span class="info-text">${dataAtributes.ects}</span></div>
                         </div>
                     </div>
 
@@ -1450,6 +1507,11 @@ $(".btn-next").click(function (e) {
 
                 // Insérer le HTML dynamique
                 $('.content').html(contentHtml);
+            },
+                error: function(error) {
+                    console.error("Erreur lors de la récupération des données : ", error);
+                }
+            });
 
     }
     }).catch(function(error) {

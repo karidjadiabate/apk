@@ -40,4 +40,9 @@ class Matiere extends Model
     {
         return $this->hasMany(Classe::class);
     }
+
+    public function etablissementMatieres()
+    {
+        return $this->hasMany(EtablissementMatiere::class, 'matiere_id');
+    }
 }

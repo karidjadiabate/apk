@@ -943,7 +943,7 @@
 
 
 
-                    @if (intval(auth()->user()->role_id) === 3)
+                    @if (auth()->user()->role_id == 3)
                         <!-- calendrier -->
                         <li class="nav-item" id="calendrier">
                             <a class="nav-link " href="{{ route('calendrier.admin') }}">
@@ -958,7 +958,7 @@
                                 </div>
                             </a>
                         </li>
-                    @elseif(intval(auth()->user()->role_id) === 2)
+                    @elseif(auth()->user()->role_id == 2)
                         <li class="nav-item" id="calendrier">
                             <a class="nav-link " href="{{ route('calendrier.professeur') }}">
                                 <div class="icon-text-container">

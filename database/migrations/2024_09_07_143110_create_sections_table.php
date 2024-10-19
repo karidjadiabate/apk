@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('soustitre');
             $table->foreignIdFor(Sujet::class)->onDelete('cascade');
             $table->foreignIdFor(User::class);
+            $table->string('image_section')->nullable();
             $table->timestamps();
         });
     }

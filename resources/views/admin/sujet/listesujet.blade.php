@@ -258,11 +258,7 @@
                 <table id="inscriptionTable" class="table">
                     <thead class="table-aaa">
                         <tr class="aa">
-                            {{-- <th>Identifiant</th> --}}
                             <th>Code</th>
-                            <!-- @if (intval(auth()->user()->role_id) === 3)
-                                <th>Professeur</th>
-                            @endif -->
                             <th>Matière</th>
                             <th>Filière</th>
                             <th>Classes</th>
@@ -274,25 +270,30 @@
                     <tbody>
                         @foreach ($listesujets as $listesujet)
                             <tr>
-                                {{-- <td data-label="Identifiant">{{ $listesujet->id }}</td> --}}
                                 <td data-label="Code">{{ $listesujet->code }}</td>
-                                <!-- @if (intval(auth()->user()->role_id) === 3)
-                                    <td data-label="User">{{ $listesujet->nom . ' ' . $listesujet->prenom }}</td>
-                                @endif -->
-                                <td data-label="Matière">{{ $listesujet->nommatiere }}</td>
-                                <td data-label="Filière">{{ $listesujet->nomfiliere }}</td>
-                                <td data-label="Classes">{{ $listesujet->nomclasse }}</td>
-                                <td data-label="Date de création">{{ $listesujet->created_date }}</td>
-                                <td data-label="statut" id="corrigé"><span>
+                                <td data-label="Matière">{{ $listesujet->matiere->nommatiere }}</td>
+                                <td data-label="Filière">{{ $listesujet->filiere->nomfiliere ?? $listesujet->filiere->etablissementFilieres->nomfilieretablissement }}</td>
+                                <td data-label="Classes">{{ $listesujet->classe->nomclasse }}</td>
+                                <td data-label="Date de création">{{ \Carbon\Carbon::parse($listesujet->created_date)->format('d - m - Y') }}</td>
+                                <td data-label="statut">
+                                    <span class="badge {{ $listesujet->status === 'corrige' ? 'bg-success' : 'bg-warning' }}">
                                         @if ($listesujet->status === 'non-corrige')
                                             Non Corrigé
                                         @elseif($listesujet->status === 'corrige')
                                             Corrigé
                                         @endif
-                                    </span></td>
+                                    </span>
+                                </td>
+
                                 <td data-label="Action" class="action-icons no-print">
-                                    <a href="{{ route('sujetadmin.details', ['id' =>  $listesujet->id]) }}"> <i
+                                    @if (auth()->user()->role_id == 3)
+                                        <a href="{{ route('sujetadmin.details', ['id' =>  $listesujet->id]) }}"> <i
+                                        class="fas fa-eye"></i></a>
+
+                                    @elseif (auth()->user()->role_id == 2)
+                                        <a href="{{ route('sujetprofesseur.details', ['id' =>  $listesujet->id]) }}"> <i
                                             class="fas fa-eye"></i></a>
+                                    @endif
                                             <button class="printSujet" data-idsujet="{{$listesujet->id}}"> <i
                                             style="color: #4A41C5;" class="fa-solid fa-print"></i></button>
                                             <button data-bs-toggle="modal" data-bs-target="#impri">
@@ -334,9 +335,9 @@
     </div>
     <!--  -->
     {{--  --}} {{-- modal scan --}}
-    
 
-    
+
+
     <div class="modal fade " id="impri" tabindex="-1" aria-labelledby="largeModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -471,7 +472,7 @@
         <!-- Footer -->
         @include('admin.include.footer')
 
-        
+
     {{--  --}}
     <!-- importer -->
     <div class="modal fade" id="importModal" tabindex="-1" aria-labelledby="importModalLabel" aria-hidden="true">

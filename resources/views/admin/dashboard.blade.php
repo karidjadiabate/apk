@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="{{asset('frontend/dashboard/css/dash.css')}}">
     <link rel="stylesheet" href="{{asset('frontend/dashboard/html/admin.css')}}">
     <link rel="stylesheet" href="https://site-assets.fontawesome.com/releases/v6.6.0/css/all.css">
-    <title>admin</title>
+    <title>Tableau de bord</title>
 </head>
 <style>
 .day .number {
@@ -105,7 +105,7 @@
                         </svg>
 
                         <h5 class="card-title">Nombre total de sujets générés</h5>
-                        <p class="card-text">250</p>
+                        <p class="card-text">{{$nbsujetgenere}}</p>
                     </div>
                 </div>
             </div>
@@ -199,46 +199,33 @@
                     </div>
                     <div class="chart-placeholder mb-4">
                         <canvas id="myChart"></canvas>
-                    </div> 
                     </div>
-                    
+                    </div>
+
                     <!-- Ajoutez la section des Sujets récents ici -->
                     <div class="col-12 col-md-12 tablest d-flex justify-content-center flex-column">
                         <h4 class="card-sujets text-start">Sujets récents</h4>
                         <table class="tables text-start  ">
                             <tbody>
-                                <tr>
-                                    <td data-label="">Économie</td>
-                                    <td  data-label="">04-07-2024</td>
-                                    <td  data-label="">Devoir</td>
-                                    <td  data-label="">Marketing</td>
-                                    <td  data-label="">MA1A-RHCOMA1-CF2A</td>
-                                    <td  data-label=""><span class="badge bg-success bg-succ">Corrigé</span></td>
-                                </tr>
-                                <tr>
-                                    <td  data-label="">Économie</td>
-                                    <td  data-label="">04-07-2024</td>
-                                    <td  data-label="">Devoir</td>
-                                    <td  data-label="">Rhcom</td>
-                                    <td  data-label="">MA1A-RGLIC</td>
-                                    <td  data-label=""><span class="badge bg-warning bg-war">Non corrigé</span></td>
-                                </tr>
-                                <tr>
-                                    <td  data-label="">Comptabilité</td>
-                                    <td  data-label="">04-07-2024</td>
-                                    <td  data-label="">Examen</td>
-                                    <td  data-label="">Finance</td>
-                                    <td  data-label="">MA1A-RH-CF2COMA1A</td>
-                                    <td  data-label=""><span class="badge bg-warning bg-war">Non corrigé</span></td>
-                                </tr>
-                                <tr>
-                                    <td  data-label="">Mathématiques</td>
-                                    <td  data-label="">04-07-2024</td>
-                                    <td  data-label="">Devoir</td>
-                                    <td  data-label="">Génie civil</td>
-                                    <td  data-label="">MA1A-RGLIC</td>
-                                    <td  data-label=""><span class="badge bg-success bg-succ">Corrigé</span></td>
-                                </tr>
+                                @foreach ($sujetgenererecents as $sujetgenererecent)
+                                    <tr>
+                                        <td data-label="" style="font-weight: bold">{{$sujetgenererecent->matiere->nommatiere}}</td>
+                                        <td data-label="Date de création">{{ \Carbon\Carbon::parse($sujetgenererecent->created_date)->format('d - m - Y') }}</td>
+                                        <td  data-label="">{{$sujetgenererecent->typeSujet->libtypesujet}}</td>
+                                        <td  data-label="">{{$sujetgenererecent->filiere->nomfiliere ?? $sujetgenererecent->filiere->etablissementFilieres->nomfilieretablissement}}</td>
+                                        <td  data-label="">{{$sujetgenererecent->classe->nomclasse}}</td>
+                                        <td data-label="">
+                                            <span class="badge {{ $sujetgenererecent->status === 'corrige' ? 'bg-success' : 'bg-warning' }}">
+                                                @if ($sujetgenererecent->status === 'non-corrige')
+                                                    Non Corrigé
+                                                @elseif($sujetgenererecent->status === 'corrige')
+                                                    Corrigé
+                                                @endif
+                                            </span>
+                                        </td>
+
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -290,7 +277,7 @@
 
 
     </div>
-    
+
     <!-- Footer -->
     @include('admin.include.footer')
 
