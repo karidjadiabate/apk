@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CalendrierController;
+use App\Http\Controllers\CalendrierEvaluationController;
 use App\Http\Controllers\ClasseController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\DashboardController;
@@ -95,20 +96,25 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'checkFromDemandeInscriptio
 
     Route::resource('classe', ClasseController::class);
     Route::resource('niveau', NiveauController::class);
+
     Route::get('/professeur', [UserController::class, 'professeur'])->name('professeur');
     Route::get('/etudiant', [UserController::class, 'etudiant'])->name('etudiant');
-    Route::get('/calendrier', [CalendrierController::class, 'index'])->name('calendrier.admin');
+
+    Route::get('/calendrier', [CalendrierEvaluationController::class, 'index'])->name('calendrier.admin');
+    Route::post('/calendrier', [CalendrierEvaluationController::class, 'store'])->name('calendrieradmin.store');
+
     Route::get('/apropos', [ClientController::class, 'apropos'])->name('apropos.admin');
     Route::get('/aideconfidentialite', [ClientController::class, 'aideconfidentialite'])->name('aideconfidentialite.admin');
 
     Route::post('/changepassword/update', [MonCompteController::class, 'updatepassword'])->name('updatepassword.admin');
-    Route::post('/updateprofile/{id}', [MoncompteController::class, 'updateprofile'])->name('updateprofile.admin');
+    Route::post('/updateprofile', [MoncompteController::class, 'updateprofile'])->name('updateprofile.admin');
 
     Route::get('/sujet', [SujetController::class, 'index'])->name('sujet.admin');
     Route::get('/creersujet', [SujetController::class, 'create'])->name('sujetadmin.create');
     Route::post('/sujet', [SujetController::class, 'store'])->name('sujetadmin.store');
-    Route::get('/nouvelle-page/{id}', [SujetController::class, 'voirPage'])->name('sujetadmin.voir-page');
     Route::get('/details/{id}', [SujetController::class, 'details'])->name('sujetadmin.details');
+
+
     Route::get('/parametre', [ParametreController::class, 'index'])->name('parametre.admin');
 });
 
@@ -121,8 +127,11 @@ Route::prefix('professeur')->middleware(['professeur', 'changepassword'])->group
     Route::get('/sujet', [SujetController::class, 'index'])->name('sujet.professeur');
     Route::get('/creersujet', [SujetController::class, 'create'])->name('sujetprofesseur.create');
     Route::post('/sujet', [SujetController::class, 'store'])->name('sujetprofesseur.store');
+    Route::get('/details/{id}', [SujetController::class, 'details'])->name('sujetprofesseur.details');
 
-    Route::get('/calendrier', [CalendrierController::class, 'index'])->name('calendrier.professeur');
+
+    Route::get('/calendrier', [CalendrierEvaluationController::class, 'index'])->name('calendrier.professeur');
+    Route::post('/calendrier', [CalendrierEvaluationController::class, 'store'])->name('calendrierprofesseur.store');
 
     Route::get('/apropos', [ClientController::class, 'apropos'])->name('apropos.professeur');
     Route::get('/aideconfidentialite', [ClientController::class, 'aideconfidentialite'])->name('aideconfidentialite.professeur');
@@ -135,3 +144,4 @@ Route::post('/verify-email', [EmailVerificationController::class, 'verifyEmail']
 
 Route::get('password/change', [PasswordChangeController::class, 'showChangeForm'])->name('password.change');
 Route::post('password/change', [PasswordChangeController::class, 'changePassword']);
+Route::get('/recuperer-coefficient-ects/{matiere_id}', [SujetController::class, 'getCoefficientAndEcts'])->name('recuperer.coefficient.ects');

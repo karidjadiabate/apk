@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\DemandeInscription;
+use App\Models\EtablissementFiliere;
+use App\Models\Sujet;
 use App\Models\User;
 use Illuminate\Http\Request;
 
@@ -13,7 +15,10 @@ class DashboardController extends Controller
         $fuser = new User();
         $nbetudiant = $fuser->nbetudiantparecole();
         $nbprofesseur = $fuser->nbprofesseurparecole();
-        $nbfiliere = 1;
+        $nbfiliere = EtablissementFiliere::with('filiere')->where('active',1)->where('etablissement_id', auth()->user()->etablissement_id)->count();
+        $nbsujetgenere = Sujet::where('etablissement_id', auth()->user()->etablissement_id)->count();
+        $sujetgenererecents = Sujet::with('filiere','matiere','classe','typeSujet')->where('etablissement_id', auth()->user()->etablissement_id)->latest()->limit(4)->get();
+
         $nbetablissementaccepte = DemandeInscription::where('accepted', 1)->count();
         $nbetablissementrefuse = DemandeInscription::where('rejected', 1)->count();
 
@@ -25,7 +30,9 @@ class DashboardController extends Controller
             'nbadmin',
             'nbetudiant',
             'nbprofesseur',
-            'nbfiliere'
+            'nbfiliere',
+            'nbsujetgenere',
+            'sujetgenererecents'
         ));
     }
 }

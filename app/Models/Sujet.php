@@ -10,7 +10,7 @@ class Sujet extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['code', 'type_sujet_id', 'filiere_id', 'matiere_id', 'classe_id', 'noteprincipale', 'heure', 'consigne', 'status', 'user_id', 'etablissement_id'];
+    protected $fillable = ['code', 'type_sujet_id', 'filiere_id', 'matiere_id', 'classe_id', 'noteprincipale', 'heure', 'consigne', 'status', 'user_id', 'etablissement_id','image_section'];
 
     public function sections()
     {
@@ -42,7 +42,7 @@ class Sujet extends Model
         return $this->belongsTo(TypeSujet::class);
     }
 
-    public function listesujetbyprof()
+    /* public function listesujetbyprof()
     {
 
         $listesujet = DB::table('sujets AS s')
@@ -55,7 +55,7 @@ class Sujet extends Model
             ->get();
 
         return $listesujet;
-    }
+    } */
 
     public function listesujetbyadmin()
     {

@@ -354,10 +354,9 @@
                                 <div class="form-group col-md-6">
                                     <select class="form-control" id="input3" required>
                                         <option value="" disabled selected>Filière</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
-                                        <!-- Ajoutez d'autres options ici -->
+                                        @foreach ($filieres as $filiere)
+                                            <option value="{{$filiere->id}}">{{$filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                <div class="form-group col-md-6">
@@ -416,7 +415,7 @@
                 },
                 customButtons: {
                     createButton: {
-                        text: '+ Créer', 
+                        text: '+ Créer',
                         click: function() {
                             // Action lorsque le bouton est cliqué
                             $('#createEventModal').modal('show'); // Ouvrir le modal

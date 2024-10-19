@@ -61,42 +61,6 @@
                             class="fa fa-plus"></i> Ajouter un enseignant</button> --}}
                 </div>
 
-
-                {{-- <div class="dropdown" id="filterMenu">
-                    <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        <i class="fa fa-filter"></i> Filtrer par
-                    </button>
-                    <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#"
-                                data-bs-toggle="dropdown">Matière</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="applyFilter('Matière', 'Comptabilité')">Comptabilité</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="applyFilter('Matière', 'Physique')">Physique</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="applyFilter('Matière', 'Chimie')">Chimie</a></li>
-                            </ul>
-                        </li>
-                        <li class="dropdown-submenu">
-                            <a class="dropdown-item dropdown-toggle" href="#" data-bs-toggle="dropdown">Classe</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="applyFilter('Classe', 'MA1A')">MA1A</a>
-                                </li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="applyFilter('Classe', 'RHCOM1A')">RHCOM1A</a></li>
-                                <li><a class="dropdown-item" href="#"
-                                        onclick="applyFilter('Classe', 'CF2A')">CF2A</a>
-                                </li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div> --}}
-
-
             </div>
             <!-- Table for listing teachers -->
             <div id="noResults">Aucun résultat trouvé</div>

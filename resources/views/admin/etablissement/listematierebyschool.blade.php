@@ -258,14 +258,12 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="input-group">
+                                                    <div class="col-sm-6" style="display: flex; align-items: center;">
                                                         <!-- Button to decrease value -->
                                                         <button class="btn btn-outline-secondary" type="button"
-                                                            id="decrease-btn">-</button>
+                                                            id="decrease-btnedit">-</button>
 
-                                                        <!-- Select for level (niveau) -->
-                                                        <select class="form-select" id="niveau_id" name="niveau_id"
-                                                            onchange="enableButtons()" style="margin: 0 10px;">
+                                                        <select class="form-select" id="niveau_id" name="niveau_id" style="margin: 0 10px;" required>
                                                             <option selected>Niveau</option>
                                                             @foreach ($niveaux as $niveau)
                                                                 <option value="{{ $niveau->id }}" {{ $niveau->id == $matiere->niveau_id ? 'selected' : '' }}>
@@ -280,7 +278,7 @@
 
                                                         <!-- Button to increase value -->
                                                         <button class="btn btn-outline-secondary" type="button"
-                                                            id="increase-btn">+</button>
+                                                            id="increase-btnedit">+</button>
                                                     </div>
 
                                                     <div class="col-sm-6">
@@ -404,13 +402,12 @@
                                 </div>
                             </div>
 
-                            <div class="input-group" style="display: flex; align-items: center;">
+                            <div class="col-sm-6" style="display: flex; align-items: center;">
                                 <!-- Button to decrease value -->
                                 <button class="btn btn-outline-secondary" type="button" id="decrease-btn">-</button>
 
                                 <!-- Select for level (niveau) -->
-                                <select class="form-select" id="niveau_id" name="niveau_id"
-                                    onchange="enableButtons()" style="margin: 0 10px;">
+                                <select class="form-select" id="niveau_id" name="niveau_id" style="margin: 0 10px;">
                                     <option selected>Niveau</option>
                                     @foreach ($niveaux as $niveau)
                                         <option value="{{ $niveau->id }}">{{ $niveau->nomniveau }}</option>
@@ -418,8 +415,7 @@
                                 </select>
 
                                 <!-- Coefficient Input -->
-                                <input type="number" class="form-control" id="coefficient" name="coefficient"
-                                    value="1" min="1" style="width: 70px;">
+                                <input type="number" class="form-control" id="coefficient" name="coefficient" value="1" min="1" style="width: 70px;">
 
                                 <!-- Button to increase value -->
                                 <button class="btn btn-outline-secondary" type="button" id="increase-btn">+</button>
@@ -494,33 +490,6 @@
             searchTable('#matiereTable tbody', 'searchInput', 'noResults');
             paginateTable('#matiereTable');
         });
-    </script>
-
-
-
-    <script>
-        function enableButtons() {
-            document.getElementById('decrease-btn').disabled = false;
-            document.getElementById('increase-btn').disabled = false;
-            document.getElementById('coefficient').readOnly = false;
-        }
-
-        function changeCoefficient(value) {
-            var coefficientInput = document.getElementById('coefficient');
-            var currentValue = parseInt(coefficientInput.value);
-
-            if (!isNaN(currentValue) && currentValue + value >= 1) {
-                coefficientInput.value = currentValue + value;
-            }
-        }
-
-        document.getElementById('decrease-btn').onclick = function() {
-            changeCoefficient(-1);
-        };
-
-        document.getElementById('increase-btn').onclick = function() {
-            changeCoefficient(1);
-        };
     </script>
 
     <!-- Bootstrap JS -->
@@ -615,6 +584,48 @@
         // Récupérer la valeur sélectionnée dans le select
         hiddenInput.value = select.value;
     });
+</script>
+
+<script>
+    // Fonction pour changer la valeur du coefficient
+    function changeCoefficient(value) {
+        var coefficientInput = document.getElementById('coefficient');
+        var currentValue = parseInt(coefficientInput.value);
+
+        if (!isNaN(currentValue) && currentValue + value >= 1) {
+            coefficientInput.value = currentValue + value;
+        }
+    }
+
+    // Assignation des fonctions aux boutons
+    document.getElementById('decrease-btn').onclick = function() {
+        changeCoefficient(-1);
+    };
+
+    document.getElementById('increase-btn').onclick = function() {
+        changeCoefficient(1);
+    };
+</script>
+
+<script>
+    // Fonction pour changer la valeur du coefficient
+    function changeCoefficientEdit(value) {
+        var coefficientInput = document.getElementById('coefficient');
+        var currentValue = parseInt(coefficientInput.value);
+
+        if (!isNaN(currentValue) && currentValue + value >= 1) {
+            coefficientInput.value = currentValue + value;
+        }
+    }
+
+    // Assignation des fonctions aux boutons
+    document.getElementById('decrease-btnedit').onclick = function() {
+        changeCoefficientEdit(-1);
+    };
+
+    document.getElementById('increase-btnedit').onclick = function() {
+        changeCoefficientEdit(1);
+    };
 </script>
 
 </body>
