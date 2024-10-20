@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\CalendrierEvaluation;
+use App\Models\Classe;
 use App\Models\EtablissementFiliere;
+use App\Models\Matiere;
 use Illuminate\Http\Request;
 
 class CalendrierEvaluationController extends Controller
@@ -12,13 +14,32 @@ class CalendrierEvaluationController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        $ecoleId = auth()->user()->etablissement_id;
+{
+    $ecoleId = auth()->user()->etablissement_id;
 
-        $filieres = EtablissementFiliere::with('filiere')->where('active', 1)->where('etablissement_id', $ecoleId)->get();
+    $fclasse = new Classe();
+    $fmatiere = new Matiere();
 
-        return view('admin.calendrier.calendrier',compact('filieres'));
-    }
+    $classes = $fclasse->listeclassbyecole();
+    $filieres = EtablissementFiliere::with('filiere')->where('active', 1)->where('etablissement_id', $ecoleId)->get();
+    $matieres = $fmatiere->listematierebyecole();
+    $listecalendarevaluations = CalendrierEvaluation::with('matiere','classe','filiere','typeSujet')->get();
+
+    //Convertion pour pouvoir avoir accès à la variable dans le script du calendar
+    $calendrierEvents = $listecalendarevaluations->map(function ($evaluation) {
+        return [
+            'id' => $evaluation->id,
+            'title' => $evaluation->matiere->nommatiere . '<br>' . $evaluation->classe->nomclasse,
+            'start' => $evaluation->date . 'T' . $evaluation->debut,
+            'end' => $evaluation->date . 'T' . $evaluation->fin,
+            'className' => 'event-' . strtolower(str_replace(' ', '-', $evaluation->matiere->nommatiere)),
+        ];
+
+    });
+
+    return view('admin.calendrier.calendrier', compact('filieres', 'classes', 'matieres', 'calendrierEvents'));
+}
+
 
     /**
      * Show the form for creating a new resource.
@@ -40,7 +61,8 @@ class CalendrierEvaluationController extends Controller
             'classe_id' => $request->classe_id,
             'debut' => $request->debut,
             'fin' => $request->fin,
-            //'etablissement_id' => auth()->user()->etablissement_id,
+            'date' => $request->date,
+            'etablissement_id' => auth()->user()->etablissement_id,
         ]);
 
         if (auth()->user()->role_id == 2) {
@@ -69,16 +91,39 @@ class CalendrierEvaluationController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, CalendrierEvaluation $calendrierEvaluation)
+    public function update(Request $request)
     {
-        //
+        $event = CalendrierEvaluation::find($request->id);
+
+        if ($event) {
+            $event->debut = $request->debut;
+            $event->fin = $request->fin;
+            $event->date = $request->date;
+            $event->save();
+
+            return response()->json(['success' => 'Événement mis à jour avec succès.']);
+        } else {
+
+            return response()->json(['error' => 'Événement non trouvé.'], 404);
+        }
     }
+
+
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(CalendrierEvaluation $calendrierEvaluation)
+    public function destroy(Request $request)
     {
-        //
+        $event = CalendrierEvaluation::find($request->id);
+
+        if ($event) {
+
+            $event->delete();
+
+            return response()->json(['success' => 'Événement supprimé avec succès.']);
+        } else {
+            return response()->json(['error' => 'Événement non trouvé.'], 404);
+        }
     }
 }

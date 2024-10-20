@@ -328,31 +328,30 @@
                 <div class="modal-content">
                     <button type="button" class="custom-close-btn" data-bs-dismiss="modal" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
                     <div class="modal-body">
-                        <form id="eventForm">
+                        @if (auth()->user()->role_id == 3)
+                        <form id="eventForm" action="{{route('calendrieradmin.store')}}" method="POST">
+                            @csrf
                             <!-- 8 Input Fields -->
                            <div class="form-group col-md-12 row g-3">
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="input1" required>
+                                    <select class="form-control" name="matiere_id" id="input1" required>
                                         <option value="" disabled selected>Matière</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
-                                        <!-- Ajoutez d'autres options ici -->
+                                        @foreach ($matieres as $matiere)
+                                            <option value="{{$matiere->id}}">{{$matiere->nommatiere}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="input2" required>
-                                        <option value="" disabled selected>Catégorie d'évolution</option>
-                                        <option value="option1">Option 1</option>
-                                        <option value="option2">Option 2</option>
-                                        <option value="option3">Option 3</option>
-                                        <!-- Ajoutez d'autres options ici -->
+                                    <select class="form-control" name="type_sujet_id" id="input2" required>
+                                        <option value="" disabled selected>Catégorie d'évaluation</option>
+                                            <option value="1">Devoir</option>
+                                            <option value="2">Examen</option>
                                     </select>
                                 </div>
                            </div>
                            <div class="form-group col-md-12 row g-3">
                                 <div class="form-group col-md-6">
-                                    <select class="form-control" id="input3" required>
+                                    <select class="form-control" name="filiere_id" id="input3" required>
                                         <option value="" disabled selected>Filière</option>
                                         @foreach ($filieres as $filiere)
                                             <option value="{{$filiere->id}}">{{$filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
@@ -360,31 +359,88 @@
                                     </select>
                                 </div>
                                <div class="form-group col-md-6">
-                                    <select class="form-control" id="input4" required>
+                                    <select class="form-control" name="classe_id" id="input4" required>
                                         <option value="" disabled selected>Classe</option>
-                                        <option value="classe1">Classe 1</option>
-                                        <option value="classe2">Classe 2</option>
-                                        <option value="classe3">Classe 3</option>
-                                        <!-- Ajoutez d'autres options ici -->
+                                        @foreach ($classes as $classe)
+                                            <option value="{{$classe->id}}">{{$classe->nomclasse}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                            </div>
                            <div class="form-group col-md-12 row g-3">
                                <div class="form-group col-md-3">
-                                   <input type="time" class="form-control" id="input5" placeholder="Début" required>
+                                   <input type="time" name="debut" class="form-control" id="input5" placeholder="Début" required>
                                </div>
                                <div class="form-group col-md-3">
-                                   <input type="time" class="form-control" id="input6" placeholder="Fin" required>
+                                   <input type="time" name="fin" class="form-control" id="input6" placeholder="Fin" required>
                                </div>
                                <div class="form-group col-md-6">
-                                   <input type="date" class="form-control" id="input7" placeholder="Date" required>
+                                   <input type="date" name="date" class="form-control" id="input7" placeholder="Date" required>
                                </div>
                            </div>
+
+                           <div class="modal-footer d-flex justify-content-between margin-space">
+                            <button type="submit" class="btn btn-success" id="submitEvent">Sauvegarder</button>
+                            <button type="button" class="btn btn-secondaire margin-r" data-dismiss="modal">Annuler</button>
+                           </div>
                         </form>
-                    </div>
-                    <div class="modal-footer d-flex justify-content-between margin-space">
-                        <button type="submit" class="btn btn-success" id="submitEvent">Sauvegarder</button>
-                        <button type="button" class="btn btn-secondaire margin-r" data-dismiss="modal">Annuler</button>
+                        @elseif (auth()->user()->role_id == 2)
+                        <form id="eventForm" action="{{route('calendrierprofesseur.store')}}" method="POST">
+                            <!-- 8 Input Fields -->
+                           <div class="form-group col-md-12 row g-3">
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="matiere_id" id="input1" required>
+                                        <option value="" disabled selected>Matière</option>
+                                        @foreach ($matieres as $matiere)
+                                            <option value="{{$matiere->id}}">{{$matiere->nommatiere}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="type_sujet_id" id="input2" required>
+                                        <option value="" disabled selected>Catégorie d'évaluation</option>
+                                            <option value="1">Devoir</option>
+                                            <option value="2">Examen</option>
+                                    </select>
+                                </div>
+                           </div>
+                           <div class="form-group col-md-12 row g-3">
+                                <div class="form-group col-md-6">
+                                    <select class="form-control" name="filiere_id" id="input3" required>
+                                        <option value="" disabled selected>Filière</option>
+                                        @foreach ($filieres as $filiere)
+                                            <option value="{{$filiere->id}}">{{$filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                               <div class="form-group col-md-6">
+                                    <select class="form-control" name="classe_id" id="input4" required>
+                                        <option value="" disabled selected>Classe</option>
+                                        @foreach ($classes as $classe)
+                                            <option value="{{$classe->id}}">{{$classe->nomclasse}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                           </div>
+                           <div class="form-group col-md-12 row g-3">
+                               <div class="form-group col-md-3">
+                                   <input type="time" name="debut" class="form-control" id="input5" placeholder="Début" required>
+                               </div>
+                               <div class="form-group col-md-3">
+                                   <input type="time" name="fin" class="form-control" id="input6" placeholder="Fin" required>
+                               </div>
+                               <div class="form-group col-md-6">
+                                   <input type="date" name="date" class="form-control" id="input7" placeholder="Date" required>
+                               </div>
+                           </div>
+
+                           <div class="modal-footer d-flex justify-content-between margin-space">
+                            <button type="submit" class="btn btn-success" id="submitEvent">Sauvegarder</button>
+                            <button type="button" class="btn btn-secondaire margin-r" data-dismiss="modal">Annuler</button>
+                           </div>
+                        </form>
+                        @endif
+
                     </div>
                 </div>
             </div>
@@ -406,45 +462,115 @@
 
     <script>
         $(document).ready(function() {
+            // Ajouter le token CSRF dans toutes les requêtes AJAX
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var calendrierEvents = @json($calendrierEvents);
             $('#calendar').fullCalendar({
                 locale: 'fr',
                 header: {
                     left: 'createButton',
-                    center: 'searchBar title ',
+                    center: 'searchBar title',
                     right: 'agendaDay,agendaWeek,month prev,next'
                 },
                 customButtons: {
                     createButton: {
                         text: '+ Créer',
                         click: function() {
-                            // Action lorsque le bouton est cliqué
-                            $('#createEventModal').modal('show'); // Ouvrir le modal
+                            $('#createEventModal').modal('show');
                         }
                     },
-
                 },
                 defaultDate: new Date(),
                 editable: true,
-                events: [{
-                        title: 'Économie \n MA2A',
-                        start: '2024-10-15T08:30:00',
-                        end: '2024-10-15T12:00:00',
-                        className: 'event-economie-ma2a',
-                        description: 'Économie pour MA2A',
-                    },
-                    {
-                        title: 'Économie \n CFIC',
-                        start: '2024-10-23T08:20:00',
-                        end: '2024-10-23T12:00:00',
-                        className: 'event-economie-ma2a',
-                        description: 'Économie pour CFIC',
-                    }
-                ],
+                events: calendrierEvents,
+
+                // Fonction pour rendre chaque événement
                 eventRender: function(event, element) {
+                    // Ajouter une icône de suppression
+                    element.find('.fc-title').html(event.title);
                     element.find('.fc-title').append(
-                        '<span class="fc-delete-icon fa fa-times"></span>');
+                        "<span class='fc-delete-icon' style='cursor:pointer; color:red;'>&times;</span>"
+                    );
+
+                    // Associer l'événement de suppression
+                    element.find(".fc-delete-icon").on('click', function() {
+                        if (confirm("Voulez-vous vraiment supprimer cet événement ?")) {
+                            $.ajax({
+                                url: '{{ route("deletevaluation") }}',
+                                data: {
+                                    id: event.id
+                                },
+                                type: 'POST',
+                                success: function(response) {
+                                    alert('Événement supprimé avec succès !');
+                                    $('#calendar').fullCalendar('removeEvents', event._id);
+                                },
+                                error: function() {
+                                    alert('Erreur lors de la suppression de l\'événement.');
+                                }
+                            });
+                        }
+                    });
+
+                    // Appliquer des couleurs selon le jour de la semaine
+                    var dayOfWeek = event.start.day(); // 0 = dimanche, 1 = lundi, etc.
+                    switch(dayOfWeek) {
+                        case 0: // Dimanche
+                            element.css('background-color', '#f39c12');
+                            break;
+                        case 1: // Lundi
+                            element.css('background-color', '#3498db');
+                            break;
+                        case 2: // Mardi
+                            element.css('background-color', '#2ecc71');
+                            break;
+                        case 3: // Mercredi
+                            element.css('background-color', '#9b59b6');
+                            break;
+                        case 4: // Jeudi
+                            element.css('background-color', '#e74c3c');
+                            break;
+                        case 5: // Vendredi
+                            element.css('background-color', '#f1c40f');
+                            break;
+                        case 6: // Samedi
+                            element.css('background-color', '#16a085');
+                            break;
+                    }
+                },
+
+                // Mise à jour de l'événement lors d'un déplacement
+                eventDrop: function(event, delta, revertFunc) {
+                    var start_time = event.start.format('HH:mm:ss');
+                    var end_time = event.end ? event.end.format('HH:mm:ss') : null;
+                    var event_date = event.start.format('YYYY-MM-DD');
+
+                    $.ajax({
+                        url: '{{ route("updatevaluation") }}',
+                        data: {
+                            id: event.id,
+                            debut: start_time,
+                            fin: end_time,
+                            date: event_date
+                        },
+                        type: 'POST',
+                        success: function(response) {
+                            alert('Événement mis à jour avec succès !');
+                        },
+                        error: function() {
+                            alert('Erreur lors de la mise à jour de l\'événement.');
+                            revertFunc();
+                        }
+                    });
                 }
             });
+
+            // Ajouter une barre de recherche dans le calendrier
             $(".fc-center").prepend(`
                 <div class="search-bar">
                     <i class="fas fa-search"></i>

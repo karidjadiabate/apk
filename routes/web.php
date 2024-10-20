@@ -138,10 +138,17 @@ Route::prefix('professeur')->middleware(['professeur', 'changepassword'])->group
 
     Route::post('/changepassword/update', [MoncompteController::class, 'updatepassword'])->name('updatepassword.professeur');
     Route::post('/updateprofile/{id}', [MoncompteController::class, 'updateprofile'])->name('updateprofile.professeur');
+
+
 });
 
+
 Route::post('/verify-email', [EmailVerificationController::class, 'verifyEmail']);
+
+Route::post('/updatevaluation', [CalendrierEvaluationController::class, 'update'])->name('updatevaluation');
+Route::post('/deletevaluation', [CalendrierEvaluationController::class, 'destroy'])->name('deletevaluation');
 
 Route::get('password/change', [PasswordChangeController::class, 'showChangeForm'])->name('password.change');
 Route::post('password/change', [PasswordChangeController::class, 'changePassword']);
 Route::get('/recuperer-coefficient-ects/{matiere_id}', [SujetController::class, 'getCoefficientAndEcts'])->name('recuperer.coefficient.ects');
+

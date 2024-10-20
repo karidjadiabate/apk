@@ -322,7 +322,7 @@
                                 <div class="form-group">
                                     <select name="etablissement_filiere_id" id="etablissement_filiere_id"
                                         class="form-control" required>
-                                        <option value="">Sélectionnez une filière</option>
+                                        <option value="" selected disabled>Sélectionnez une filière</option>
                                         @foreach ($listefilieres as $filiere)
                                             <option value="{{ $filiere->filiere_id }}">
                                                 {{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}
@@ -337,6 +337,7 @@
 
                                 <div class="form-group">
                                     <select name="niveau_id" id="niveaux" class="form-control" required>
+                                        <option value=""selected disabled>Sélectionnez un niveau</option>
                                         @foreach ($niveaux as $niveau)
                                             <option value="{{ $niveau->id }}">{{ $niveau->code }}</option>
                                         @endforeach

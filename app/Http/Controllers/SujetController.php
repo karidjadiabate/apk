@@ -90,7 +90,7 @@ class SujetController extends Controller
         $cycleIds = [];
 
         // Obtenir toutes les matières pour l'administrateur, sinon inclure la matière du professeur (si disponible)
-        $matieres = ($userRole === 3) ? $matieres = $fmatiere->listematierebyecole() : Matiere::whereIn('cycle_id', $cycleIds)->get();
+        $matieres = ($userRole === 3) ? $matieres = $fmatiere->listematierebyecole() : '';
 
         if ($professeurMatiere) {
             $matieres->push($professeurMatiere);

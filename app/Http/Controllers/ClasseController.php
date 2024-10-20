@@ -15,18 +15,6 @@ class ClasseController extends Controller
     /**
      * Display a listing of the resource.
      */
-    /* public function index()
-    {
-        $fclasse = new Classe();
-
-        $filiere = new Filiere();
-
-        $filieres = $filiere->listefilierebyecole();
-
-        $classes = $fclasse->listeclassbyecole();
-
-        return view('admin.classe.listeclasse',compact('classes','filieres'));
-    } */
 
     public function index()
     {
