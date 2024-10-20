@@ -631,11 +631,11 @@
                             <option value="" disabled selected hidden>
                                 Sélectionner la matière
                             </option>
-                            @if (intval(auth()->user()->role_id) === 3)
+                            @if (auth()->user()->role_id == 3)
                                 @foreach ($matieres as $matiere)
                                     <option value="{{ $matiere->id }}" data-matiere="{{ $matiere->nommatiere }}">{{ $matiere->nommatiere }}</option>
                                 @endforeach
-                            @elseif(intval(auth()->user()->role_id) === 2)
+                            @elseif(auth()->user()->role_id == 2)
                                 @foreach ($professeurMatiere as $matiere)
                                     <option value="{{ $matiere->id }}" data-matiere ="{{ $matiere->nommatiere }}">{{ $matiere->nommatiere }}</option>
                                 @endforeach

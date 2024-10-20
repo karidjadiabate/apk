@@ -50,7 +50,7 @@ class SujetController extends Controller
     {
         $user = auth()->user();
 
-        $userRole = intval($user->role_id);
+        $userRole = $user->role_id;
 
         $ecoleId = auth()->user()->etablissement_id;
 

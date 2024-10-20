@@ -204,19 +204,13 @@
 
                                                     <!-- Sélection des niveaux -->
                                                     <div class="col-sm-6">
-                                                        <select name="niveau_id" id="niveaux" class="form-control"
-                                                            required>
-                                                            @foreach ($listefilieres as $filiere)
-                                                                @php
-                                                                    $niveaux = $filiere->niveaux(); // Appel à la méthode niveaux pour obtenir les niveaux
-                                                                @endphp
+                                                        <select name="niveau_id" id="niveaux" class="form-control"required>
                                                                 @foreach ($niveaux as $niveau)
                                                                     <option value="{{ $niveau->id }}"
                                                                         {{ $niveau->id == $classe->niveau_id ? 'selected' : '' }}>
                                                                         {{ $niveau->code }}
                                                                     </option>
                                                                 @endforeach
-                                                            @endforeach
                                                         </select>
                                                         <div class="invalid-feedback">
                                                             Le niveau est requis.
@@ -343,13 +337,8 @@
 
                                 <div class="form-group">
                                     <select name="niveau_id" id="niveaux" class="form-control" required>
-                                        @foreach ($listefilieres as $filiere)
-                                            @php
-                                                $niveaux = $filiere->niveaux(); // Appel à la méthode niveaux
-                                            @endphp
-                                            @foreach ($niveaux as $niveau)
-                                                <option value="{{ $niveau->id }}">{{ $niveau->code }}</option>
-                                            @endforeach
+                                        @foreach ($niveaux as $niveau)
+                                            <option value="{{ $niveau->id }}">{{ $niveau->code }}</option>
                                         @endforeach
                                     </select>
                                 </div>

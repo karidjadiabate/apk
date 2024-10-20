@@ -7,6 +7,7 @@ use App\Http\Requests\StoreClasseRequest;
 use App\Http\Requests\UpdateClasseRequest;
 use App\Models\EtablissementFiliere;
 use App\Models\Filiere;
+use App\Models\Niveau;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -33,13 +34,11 @@ class ClasseController extends Controller
 
         $listefilieres = EtablissementFiliere::with('filiere')->where('active',1)->where('etablissement_id', auth()->user()->etablissement_id)->get();
 
-        foreach ($listefilieres as $filiere) {
-            $filiere->niveaux = json_decode($filiere->niveau_id); // Convertir JSON en tableau
-        }
+        $niveaux = Niveau::all();
 
         $classes = $fclasse->listeclassbyecole();
 
-        return view('admin.classe.listeclasse',compact('classes','listefilieres'));
+        return view('admin.classe.listeclasse',compact('classes','listefilieres','niveaux'));
     }
 
     /**
