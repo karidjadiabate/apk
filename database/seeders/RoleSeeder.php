@@ -22,7 +22,7 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            'nomrole' => 'Admin',
+            'nomrole' => 'Administrateur',
         ]);
 
         Role::create([

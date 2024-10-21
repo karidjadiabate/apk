@@ -170,7 +170,7 @@
                                     <div class="modal-content ">
                                         <h1 class="text-center">Modifier</h1>
                                         <form action="{{ route('classe.update', $classe->id) }}" method="POST"
-                                            class="needs-validation" novalidate>
+                                            class="needs-validation">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
@@ -305,7 +305,7 @@
                     <i class="fa-solid fa-xmark"></i> <!-- Font Awesome close icon -->
                 </button>
                 <div class="modal-body">
-                    <form action="{{ route('classe.store') }}" method="POST" class="needs-validation" novalidate>
+                    <form action="{{ route('classe.store') }}" method="POST" class="needs-validation">
                         @csrf
                         <div class="row g-3">
                             <!-- Fields for adding teacher details -->

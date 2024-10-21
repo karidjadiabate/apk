@@ -224,7 +224,7 @@
                                         <h1 class="text-center">Modifier</h1>
                                         <form
                                             action="{{ route('updateadmin.filiere', $filiere->etablissement_filiere_id ?? $filiere->filiere_id) }}"
-                                            method="POST" class="needs-validation" novalidate>
+                                            method="POST" class="needs-validation">
                                             @csrf
                                             @method('PUT')
 
@@ -250,7 +250,7 @@
                                                     <div class="col-sm-6">
                                                         <select class="select2-multiple form-control"
                                                             name="niveau_id[]" style="width: 100%"
-                                                            id="niveaueditselect2" multiple>
+                                                            id="niveaueditselect2" multiple required>
                                                             @foreach ($niveaux as $niveau)
                                                                 <option value="{{ $niveau->id }}"
                                                                     {{ in_array($niveau->id, (array) json_decode($filiere->niveau_id, true) ?? []) ? 'selected' : '' }}>
@@ -275,7 +275,7 @@
                                                         <input type="text" name="directeurfiliere"
                                                             class="form-control"
                                                             value="{{ $filiere->directeurfiliere }}"
-                                                            placeholder="Nom du directeur" required>
+                                                            placeholder="Nom du directeur">
                                                         <div class="invalid-feedback">
                                                             Le nom du directeur est requis.
                                                         </div>
@@ -363,8 +363,7 @@
                 </button>
                 <h1 class="text-center">Ajouter</h1>
                 <div class="modal-body">
-                    <form action="{{ route('storeadmin.filiere') }}" method="POST" class="needs-validation"
-                        novalidate>
+                    <form action="{{ route('storeadmin.filiere') }}" method="POST" class="needs-validation">
                         @csrf
                         <div class="row g-3">
 
@@ -402,7 +401,7 @@
 
                             <div class="col-sm-6">
                                 <input type="text" name="directeurfiliere" class="form-control" id="editLastName"
-                                    placeholder="Nom du directeur" required>
+                                    placeholder="Nom du directeur">
                                 <div class="invalid-feedback">
                                     Valid last name is required.
                                 </div>

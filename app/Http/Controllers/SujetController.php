@@ -304,6 +304,70 @@ class SujetController extends Controller
     }
 
 
+    public function voirPage($id)
+    {
+        // Récupération du sujet avec les relations nécessaires
+        $sujet = Sujet::with([
+            'classe',
+            'classe.filiere',
+            'classe.filiere.niveau',
+            'etablissement',
+            'matiere',
+            'typeSujet',
+            'sections.questions.reponses'
+        ])->findOrFail($id);
+
+        // Récupération des QR codes et des références associés à ce sujet
+       /* $qrCodes = DB::table('subject_qrcodes')
+                        ->where('subject_id', $id)
+                        ->get(['reference', 'qrcode']);*/
+
+        // Récupération du classe_id du sujet
+        $classeId = $sujet->classe_id;
+
+        // Nombre de sujets
+        $userCount = User::where('role_id', 2)
+                        ->where('classe_id', $classeId)
+                        ->count();
+
+        // Création des données pour le sujet affiché
+        $dataAtributes = [
+            'nometablissement' => $sujet->etablissement->nometablissement ?? 'Non spécifié',
+            'typesujet' => $sujet->typeSujet->libtypesujet ?? 'Non spécifié',
+            'matiere' => $sujet->matiere->nommatiere ?? 'Non spécifié',
+            'filiere' => $sujet->filiere->nomfiliere ?? $sujet->filiere->etablissementFilieres->nomfilieretablissement,
+            'classe' => $sujet->classe->nomclasse ?? 'Non spécifié',
+            'heure' => $sujet->heure,
+            'noteprincipale' => $sujet->noteprincipale,
+            'consigne' => $sujet->consigne,
+            'sections' => $sujet->sections,
+        ];
+
+        $matiere = $sujet->matiere;
+
+        $etablissementMatieres = $matiere->etablissementMatieres;
+
+        $etablissementMatiere = $etablissementMatieres->firstWhere('id', $matiere->id);
+
+        if ($etablissementMatiere) {
+            $coefficient = $etablissementMatiere->coefficient;
+            $ects = $etablissementMatiere->credit;
+        }else{
+            $coefficient = 0;
+            $ects = 0;
+        }
+
+        // Calcul des points pour chaque section du sujet actuel
+        foreach ($dataAtributes['sections'] as $section) {
+            $section->total_points = $this->calculatePoints($section->questions);
+        }
+        $randomSubjects = $this->generateRandomSubjects($sujet, $userCount);
+
+        // Retourne les données à la vue, y compris les QR codes et références récupérés
+        return view('admin.sujet.show', compact('dataAtributes', 'randomSubjects','coefficient','ects'));
+    }
+
+
     // Fonction pour calculer les points
     private function calculatePoints($questions)
     {

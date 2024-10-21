@@ -727,38 +727,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-label="Id">0001</td>
-                            <td data-label="Nom" class="data2">ADMINISTRATEUR</td>
-                            <td data-label="Utilisateur">01</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Id">0002</td>
-                            <td data-label="Nom" class="data2">PROFESSEUR</td>
-                            <td data-label="Utilisateur">50</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Id">0003</td>
-                            <td data-label="Nom" class="data2">SURVEILLANT</td>
-                            <td data-label="Utilisateur">10</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Id">0004</td>
-                            <td data-label="Nom" class="data2">CORRECTEUR</td>
-                            <td data-label="Utilisateur">8</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
+                        @foreach ($listroles as $index => $listrole)
+                            <tr>
+                                <td data-label="Id">{{ str_pad($index + 1, 4, '0', STR_PAD_LEFT) }}</td>
+                                <td data-label="Nom" class="data2">{{ strtoupper($listrole->nomrole) }}</td>
+                                <td data-label="Utilisateur">{{ $listrole->nbutilisateur }}</td>
+                                <td data-label="Action">
+                                    <span class="solid_distance"><i class="fa-solid fa-pen"></i></span>
+                                    <span class="solid_distances"><i class="fa-solid fa-trash-can"></i></span>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <!-- Modal Structure -->
@@ -801,7 +780,8 @@
 
                                 class="profile-img" id="user-image">
                                 @else
-
+                                    <img src="{{ Avatar::create(auth()->user()->etablissement->nometablissement)->toBase64() }}" alt="User"
+                                    class="profile-img" id="user-image">
                                 @endif
                             </div>
 

@@ -3,14 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Etablissement;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
 class ParametreController extends Controller
 {
     public function index()
     {
-        return view('admin.parametre.index');
+        $listroles = DB::table('users AS u')
+            ->join('roles AS r','r.id','=','u.role_id')
+            ->where('role_id','!=',1)
+            ->where('role_id','!=',4)
+            ->select('r.nomrole', DB::raw("COUNT(u.id) AS nbutilisateur"))
+            ->where('u.etablissement_id',auth()->user()->etablissement_id)
+            ->groupBy('r.nomrole')
+            ->get();
+
+        return view('admin.parametre.index',compact('listroles'));
     }
 
     public function updateetablissement(Request $request, $id)
