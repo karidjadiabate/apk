@@ -36,9 +36,9 @@
     <!-- accueil -->
     <!-- titre -->
     <div class="container text-center printableArea principal">
-    @if(auth()->user()->role_id==2 || auth()->user()->role_id==3)
-
-        <h1 class="welcome">Bienvenue <span>{{auth()->user()->etablissement->nometablissement}}</span></h1>
+        @if(auth()->user()->role_id==2 || auth()->user()->role_id==3)
+            <br>
+            <h1 class="welcome">Bienvenue <span>{{auth()->user()->etablissement->nometablissement}}</span></h1>
         @endif
     </div>
     <!-- banniere -->
@@ -50,7 +50,7 @@
     <div class="container text-center mt-4">
         <!-- les  cartes-->
       <div class="container">
-        @if (intval(auth()->user()->role_id) === 3)
+        @if (auth()->user()->role_id == 3)
         <div class="row text-start">
             <div class="col-md-3 col-12 mb-4">
                 <div class="card">
@@ -110,7 +110,7 @@
                 </div>
             </div>
         </div>
-        @elseif (intval(auth()->user()->role_id) === 4)
+        @elseif (auth()->user()->role_id == 4)
 
 
         <div class="row text-start">
@@ -176,7 +176,7 @@
       </div>
         <!--  -->
 
-        @if (intval(auth()->user()->role_id) === 3)
+        @if (auth()->user()->role_id == 3)
         <div class="container">
             <div class="row ">
                 <!-- Première section -->
@@ -237,16 +237,18 @@
                     <div class="d-flex flex-column  p-3 mb-4 perfo">
                         <h4 class="mb-3 text-start p-3">Calendrier des tests</h4>
                         <div class="event-list mb-4">
-                            <div class="event-card">
-                                <p class="text-start"><i class="fa-regular fa-clock"></i>08h - 12h</p>
-                                <p class="text-center">16-07-2024</p>
-                                <p class="text-center">Économie MA2A</p>
-                            </div>
-                            <div class="event-card">
-                                <p  class="text-start"><i class="fa-regular fa-clock"></i>08h - 12h</p>
-                                <p class="text-center">24-07-2024</p>
-                                <p class="text-center">Comptabilité CFIC</p>
-                            </div>
+                            @foreach ($listecalendarevaluations as $listecalendarevaluation)
+                                <div class="event-card">
+                                    <p class="text-start">
+                                        <i class="fa-regular fa-clock"></i>
+                                        {{ \Carbon\Carbon::parse($listecalendarevaluation->debut)->format('H:i') }}h -
+                                        {{ \Carbon\Carbon::parse($listecalendarevaluation->fin)->format('H:i') }}h
+                                    </p>
+                                    <p class="text-center">{{ \Carbon\Carbon::parse($listecalendarevaluation->date)->format('d - m - Y') }}</td></p>
+                                    <p class="text-center">{{$listecalendarevaluation->matiere->nommatiere}} {{$listecalendarevaluation->classe->nomclasse}}</p>
+                                </div>
+                            @endforeach
+
                         </div>
                         <div id="calendar" class="mb-4">
                             <div class="calendar-header">

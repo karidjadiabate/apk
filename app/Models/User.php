@@ -35,7 +35,8 @@ class User extends Authenticatable
         'adresse',
         'image',
         'filiere_id',
-        'from_demande_inscription'
+        'from_demande_inscription',
+        'apropos'
     ];
 
     /**

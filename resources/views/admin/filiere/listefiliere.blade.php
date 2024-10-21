@@ -180,14 +180,14 @@
                                             <i class="fa-solid fa-xmark"></i> </button>
                                         <!-- <h1 class="text-center">Modifier</h1> -->
                                         <form action="{{ route('filiere.update', $filiere->id) }}" method="POST"
-                                            class="needs-validation" novalidate>
+                                            class="needs-validation">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
                                                 <div class="row g-3">
                                                     <!-- Fields for editing teacher details -->
 
-                                                    <div class="col-sm-6">
+                                                    <div class="col-sm-12">
                                                         <input type="text" name="nomfiliere" class="form-control"
                                                             id="editLastName" placeholder="Nom de la filière"
                                                             value="{{ $filiere->nomfiliere }}" required>
@@ -197,28 +197,9 @@
                                                     </div>
 
                                                     <!-- Fields for editing teacher details -->
-                                                    <div class="col-sm-6">
-                                                        <input type="text" name="nomfiliere" class="form-control"
-                                                            id="editFirstName" placeholder="Nom de la filière"
-                                                            value="{{ $filiere->nomfiliere }}" required>
-                                                        <div class="invalid-feedback">
-                                                            Valid first name is required.
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
-                                                        <input type="text" name="code" class="form-control"
-                                                            id="editFirstName" placeholder="Nombre de la classe"
-                                                            value="10" required>
-                                                        <div class="invalid-feedback">
-                                                            Valid first name is required.
-                                                        </div>
-                                                    </div>
-
-                                                    <div class="col-sm-6">
-                                                        <input type="text" name="code" class="form-control"
-                                                            id="editFirstName" placeholder="Directeur de la filière"
-                                                            value="N'dri Bryan" required>
+                                                    <div class="col-sm-12">
+                                                        <textarea name="description" placeholder="Description" class="form-control" id="" cols="30" rows="10" required>
+                                                            {{ $filiere->description }}</textarea>
                                                         <div class="invalid-feedback">
                                                             Valid first name is required.
                                                         </div>

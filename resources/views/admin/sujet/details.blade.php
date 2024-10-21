@@ -300,7 +300,7 @@
                     list($heure, $minutes) = explode(':', $duree);
                 @endphp
                     <div class="header">
-                        <div class="logo"><img src="{{ asset('images/pigier.png') }}" height="50" width="auto" alt=""></div>
+                        <div class="logo"><img src="{{ asset('storage/logo/' . auth()->user()->etablissement->logo) }}" height="50" width="150" alt=""></div>
                         <div class="title">
                             <div class="devoir"><span class="devoir-text">{{ $dataAtributes['typesujet'] }}</span></div>
                             <div class="devtitle">

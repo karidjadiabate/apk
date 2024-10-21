@@ -170,7 +170,7 @@
                                     <div class="modal-content ">
                                         <h1 class="text-center">Modifier</h1>
                                         <form action="{{ route('classe.update', $classe->id) }}" method="POST"
-                                            class="needs-validation" novalidate>
+                                            class="needs-validation">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
@@ -204,19 +204,13 @@
 
                                                     <!-- Sélection des niveaux -->
                                                     <div class="col-sm-6">
-                                                        <select name="niveau_id" id="niveaux" class="form-control"
-                                                            required>
-                                                            @foreach ($listefilieres as $filiere)
-                                                                @php
-                                                                    $niveaux = $filiere->niveaux(); // Appel à la méthode niveaux pour obtenir les niveaux
-                                                                @endphp
+                                                        <select name="niveau_id" id="niveaux" class="form-control"required>
                                                                 @foreach ($niveaux as $niveau)
                                                                     <option value="{{ $niveau->id }}"
                                                                         {{ $niveau->id == $classe->niveau_id ? 'selected' : '' }}>
                                                                         {{ $niveau->code }}
                                                                     </option>
                                                                 @endforeach
-                                                            @endforeach
                                                         </select>
                                                         <div class="invalid-feedback">
                                                             Le niveau est requis.
@@ -311,7 +305,7 @@
                     <i class="fa-solid fa-xmark"></i> <!-- Font Awesome close icon -->
                 </button>
                 <div class="modal-body">
-                    <form action="{{ route('classe.store') }}" method="POST" class="needs-validation" novalidate>
+                    <form action="{{ route('classe.store') }}" method="POST" class="needs-validation">
                         @csrf
                         <div class="row g-3">
                             <!-- Fields for adding teacher details -->
@@ -328,7 +322,7 @@
                                 <div class="form-group">
                                     <select name="etablissement_filiere_id" id="etablissement_filiere_id"
                                         class="form-control" required>
-                                        <option value="">Sélectionnez une filière</option>
+                                        <option value="" selected disabled>Sélectionnez une filière</option>
                                         @foreach ($listefilieres as $filiere)
                                             <option value="{{ $filiere->filiere_id }}">
                                                 {{ $filiere->filiere->nomfiliere ?? $filiere->nomfilieretablissement }}
@@ -343,13 +337,9 @@
 
                                 <div class="form-group">
                                     <select name="niveau_id" id="niveaux" class="form-control" required>
-                                        @foreach ($listefilieres as $filiere)
-                                            @php
-                                                $niveaux = $filiere->niveaux(); // Appel à la méthode niveaux
-                                            @endphp
-                                            @foreach ($niveaux as $niveau)
-                                                <option value="{{ $niveau->id }}">{{ $niveau->code }}</option>
-                                            @endforeach
+                                        <option value=""selected disabled>Sélectionnez un niveau</option>
+                                        @foreach ($niveaux as $niveau)
+                                            <option value="{{ $niveau->id }}">{{ $niveau->code }}</option>
                                         @endforeach
                                     </select>
                                 </div>

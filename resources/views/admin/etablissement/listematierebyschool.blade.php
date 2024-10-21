@@ -212,7 +212,7 @@
                                         <h1 class="text-center">Modifier</h1>
                                         <form
                                             action="{{ route('updateadmin.matiere', $matiere->etablissement_matiere_id ?? $matiere->matiere_id) }}"
-                                            method="POST" class="needs-validation" novalidate>
+                                            method="POST" class="needs-validation">
                                             @csrf
                                             @method('PUT')
                                             <div class="modal-body">
@@ -264,7 +264,7 @@
                                                             id="decrease-btnedit">-</button>
 
                                                         <select class="form-select" id="niveau_id" name="niveau_id" style="margin: 0 10px;" required>
-                                                            <option selected>Niveau</option>
+                                                            <option selected disabled>Niveau</option>
                                                             @foreach ($niveaux as $niveau)
                                                                 <option value="{{ $niveau->id }}" {{ $niveau->id == $matiere->niveau_id ? 'selected' : '' }}>
                                                                     {{ $niveau->code }}</option>
@@ -274,7 +274,7 @@
                                                         <!-- Coefficient Input -->
                                                         <input type="number" class="form-control" id="coefficient"
                                                             name="coefficient" value="{{$matiere->coefficient}}" min="1"
-                                                            style="width: 70px;">
+                                                            style="width: 70px;" required>
 
                                                         <!-- Button to increase value -->
                                                         <button class="btn btn-outline-secondary" type="button"
@@ -370,7 +370,7 @@
                 <button type="button" class="custom-close-btn" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fa-solid fa-xmark"></i></button>
                 <h1 class="text-center">Ajouter</h1>
-                <form action="{{ route('storeadmin.matiere') }}" method="POST" class="needs-validation" novalidate>
+                <form action="{{ route('storeadmin.matiere') }}" method="POST" class="needs-validation">
                     @csrf
                     <div class="modal-body">
                         <div class="row g-3">
@@ -408,14 +408,14 @@
 
                                 <!-- Select for level (niveau) -->
                                 <select class="form-select" id="niveau_id" name="niveau_id" style="margin: 0 10px;">
-                                    <option selected>Niveau</option>
+                                    <option selected disabled>Niveau</option>
                                     @foreach ($niveaux as $niveau)
                                         <option value="{{ $niveau->id }}">{{ $niveau->nomniveau }}</option>
                                     @endforeach
                                 </select>
 
                                 <!-- Coefficient Input -->
-                                <input type="number" class="form-control" id="coefficient" name="coefficient" value="1" min="1" style="width: 70px;">
+                                <input type="number" class="form-control" id="coefficient" name="coefficient" value="1" min="1" style="width: 70px;" required>
 
                                 <!-- Button to increase value -->
                                 <button class="btn btn-outline-secondary" type="button" id="increase-btn">+</button>

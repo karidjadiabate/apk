@@ -727,38 +727,17 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-label="Id">0001</td>
-                            <td data-label="Nom" class="data2">ADMINISTRATEUR</td>
-                            <td data-label="Utilisateur">01</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Id">0002</td>
-                            <td data-label="Nom" class="data2">PROFESSEUR</td>
-                            <td data-label="Utilisateur">50</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Id">0003</td>
-                            <td data-label="Nom" class="data2">SURVEILLANT</td>
-                            <td data-label="Utilisateur">10</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
-                        <tr>
-                            <td data-label="Id">0004</td>
-                            <td data-label="Nom" class="data2">CORRECTEUR</td>
-                            <td data-label="Utilisateur">8</td>
-                            <td data-label="Action"><span class="solid_distance"><i
-                                        class="fa-solid fa-pen"></i></span><span class="solid_distances"><i
-                                        class="fa-solid fa-trash-can"></i></span></td>
-                        </tr>
+                        @foreach ($listroles as $index => $listrole)
+                            <tr>
+                                <td data-label="Id">{{ str_pad($index + 1, 4, '0', STR_PAD_LEFT) }}</td>
+                                <td data-label="Nom" class="data2">{{ strtoupper($listrole->nomrole) }}</td>
+                                <td data-label="Utilisateur">{{ $listrole->nbutilisateur }}</td>
+                                <td data-label="Action">
+                                    <span class="solid_distance"><i class="fa-solid fa-pen"></i></span>
+                                    <span class="solid_distances"><i class="fa-solid fa-trash-can"></i></span>
+                                </td>
+                            </tr>
+                        @endforeach
                     </tbody>
                 </table>
                 <!-- Modal Structure -->
@@ -768,7 +747,7 @@
                     <button type="button" class="custom-close-btn" data-bs-dismiss="modal" aria-label="Close">
                     <i class="fa-solid fa-xmark"></i></button>
                         <div  class="modal-body text-center d-flex flex-column" id="">
-                            <i class="fa-solid fa-triangle-exclamation" id="fa-triangle-exclamation"></i>                            
+                            <i class="fa-solid fa-triangle-exclamation" id="fa-triangle-exclamation"></i>
                             <span>Êtes vous sûres?</span>
                         </div>
                         <p>Voulez-vous supprimer le profil <span id="nom_affiche"></span> ?</p>
@@ -788,14 +767,25 @@
                 </div>
                 <div class="trait"></div> -->
 
-            <form action="" method="">
+            <form action="{{ route('updateetablissement', auth()->user()->etablissement_id) }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="affichage">
                     <div class="containers0">
                         <div class="circle">
-                            <input type="file" id="file-input" accept="image/*">
+                            <input type="file" id="file-input" name="file" accept="image/*" onchange="uploadImage(event)" style="display: none;">
                             <div id="image-overlay">
-                                <img id="preview" src="" alt="Image Preview" />
+                                @if (auth()->user()->etablissement->logo)
+
+                                <img src="{{ asset('storage/logo/' . auth()->user()->etablissement->logo) }}" alt="User"
+
+                                class="profile-img" id="user-image">
+                                @else
+                                    <img src="{{ Avatar::create(auth()->user()->etablissement->nometablissement)->toBase64() }}" alt="User"
+                                    class="profile-img" id="user-image">
+                                @endif
                             </div>
+
+
                         </div>
                         <div class="buttons">
                             <span id="download-button"><i class="fa-solid fa-upload"></i></span>
@@ -805,28 +795,28 @@
                     <div class="champ stack">
                         <div class="champs">
                             <label for="">Nom de l'établissement</label>
-                            <input type="text" name="" placeholder="Entrez un nom du profil"
+                            <input type="text" name="nometablissement" value="{{auth()->user()->etablissement->nometablissement}}" placeholder="Entrez un nom du profil"
                                 id="input_text">
                             <div id="error1"></div>
                         </div>
                         <div class="champs">
                             <label for="">Contact</label>
-                            <input type="tel" name="" placeholder="Entrez votre contact" id="input_text">
+                            <input type="tel" name="contact" value="{{auth()->user()->etablissement->contact}}" placeholder="Entrez votre contact" id="input_text">
                             <div id="error1"></div>
                         </div>
                         <div class="champs">
                             <label for="">Email</label>
-                            <input type="email" name="" placeholder="Entrez votre email" id="input_text">
+                            <input type="email" name="email" value="{{auth()->user()->etablissement->email}}" placeholder="Entrez votre email" id="input_text">
                             <div id="error1"></div>
                         </div>
                         <div class="champs">
                             <label for="">Adresse</label>
-                            <input type="text" name="" placeholder="Entrez email" id="input_text">
+                            <input type="text" name="adresse" value="{{auth()->user()->etablissement->adresse}}" placeholder="Entrez L'adresse" id="input_text">
                             <div id="error1"></div>
                         </div>
                         <div class="champs">
                             <label for="">Description</label>
-                            <textarea name="" id="input_textarea" placeholder="Entrez une description"></textarea>
+                            <textarea id="input_textarea" name="description" placeholder="Entrez une description">{{auth()->user()->etablissement->description}}</textarea>
                             <div id="error2"></div>
                         </div>
                         <div>
@@ -837,7 +827,7 @@
             </form>
         </div>
         {{-- </div> --}}
-        
+
     </div>
     <!-- Footer -->
 
@@ -862,42 +852,42 @@
     var vueprofils = document.getElementById('vue_profils');
     var creerprofil = document.getElementById('creer_profil');
     var vueprofil = document.getElementById('vue_profil');
-    
+
     const underline = document.getElementById('ensemble_profil12');
     const underlines = document.getElementById('ensemble_profil22');
 
 
     apparence.addEventListener('click', function() {
         console.log("125252255");
-        apparences.style.display = 'flex'; 
-        apparences.style.flexDirection = 'column'; 
+        apparences.style.display = 'flex';
+        apparences.style.flexDirection = 'column';
         apparence.style.background = '#e8eaed';
-        apparence.style.borderRadius = '10px'; 
-        profil.style.background = 'none'; 
-        parametre.style.background = 'none'; 
-        profils.style.display = 'none';    
+        apparence.style.borderRadius = '10px';
+        profil.style.background = 'none';
+        parametre.style.background = 'none';
+        profils.style.display = 'none';
         parametres.style.display = 'none';
     });
 
     parametre.addEventListener('click', function() {
         console.log("125252255");
         parametres.style.display = 'flex';
-        parametres.style.flexDirection = 'column'; 
-        parametre.style.background = '#e8eaed'; 
-        parametre.style.borderRadius = '10px'; 
-        profil.style.background = 'none'; 
-        apparence.style.background = 'none'; 
+        parametres.style.flexDirection = 'column';
+        parametre.style.background = '#e8eaed';
+        parametre.style.borderRadius = '10px';
+        profil.style.background = 'none';
+        apparence.style.background = 'none';
         apparences.style.display = 'none';
         profils.style.display = 'none';
     });
-    
+
     profil.addEventListener('click', function() {
-        profils.style.display = 'flex'; 
-        profils.style.flexDirection = 'column'; 
+        profils.style.display = 'flex';
+        profils.style.flexDirection = 'column';
         profil.style.background = '#e8eaed';
-        profil.style.borderRadius = '10px';  
+        profil.style.borderRadius = '10px';
         apparence.style.background = 'none';
-        parametre.style.background = 'none';  
+        parametre.style.background = 'none';
         apparences.style.display = 'none';
         parametres.style.display = 'none';
     });
@@ -907,49 +897,49 @@
 
 vueprofils.addEventListener('mouseenter', function() {
     if (activeProfile !== 'vueprofils') {
-        underlines.style.display = 'flex'; 
+        underlines.style.display = 'flex';
         vueprofils.style.cursor='pointer';
     }
 });
 
 vueprofils.addEventListener('mouseleave', function() {
     if (activeProfile !== 'vueprofils') {
-        underlines.style.display = 'none'; 
+        underlines.style.display = 'none';
     }
 });
 
 creerprofils.addEventListener('mouseenter', function() {
     if (activeProfile !== 'creerprofils') {
-        underline.style.display = 'flex'; 
+        underline.style.display = 'flex';
         creerprofils.style.cursor='pointer';
     }
 });
 
 creerprofils.addEventListener('mouseleave', function() {
     if (activeProfile !== 'creerprofils') {
-        underline.style.display = 'none'; 
+        underline.style.display = 'none';
     }
 });
 
 creerprofils.addEventListener('click', function() {
     creerprofil.style.display = 'flex';
-    creerprofil.style.flexDirection = 'column'; 
+    creerprofil.style.flexDirection = 'column';
     vueprofil.style.display = 'none';
-    underline.style.display = 'flex'; 
-    underlines.style.display = 'none'; 
-    activeProfile = 'creerprofils'; 
+    underline.style.display = 'flex';
+    underlines.style.display = 'none';
+    activeProfile = 'creerprofils';
 });
 
 vueprofils.addEventListener('click', function() {
     vueprofil.style.display = 'grid';
-    vueprofil.style.flexDirection = 'column'; 
+    vueprofil.style.flexDirection = 'column';
     creerprofil.style.display = 'none';
-    underlines.style.display = 'flex'; 
-    underline.style.display = 'none'; 
-    activeProfile = 'vueprofils'; 
+    underlines.style.display = 'flex';
+    underline.style.display = 'none';
+    activeProfile = 'vueprofils';
 });
 
-// Verification des informations des differents input lors de la soumission du formulaire 
+// Verification des informations des differents input lors de la soumission du formulaire
 
         var input_text = document.getElementById('input_text');
         var input_textarea = document.getElementById('input_textarea');
@@ -958,12 +948,12 @@ vueprofils.addEventListener('click', function() {
         var error_message2 = document.getElementById('error2');
 
         sauvegarde.addEventListener('submit', function(event) {
-            
+
             // Vérification des champs
             if (input_text.value.trim() === '') {
                 error_message1.textContent = 'Le champ est obligatoire.';
                 error_message1.style.color='red';
-                event.preventDefault(); 
+                event.preventDefault();
             }else{
                 error_message1.textContent = '';
             }
@@ -971,7 +961,7 @@ vueprofils.addEventListener('click', function() {
             if (input_textarea.value.trim() === '') {
                 error_message2.textContent = 'Le champ est obligatoire.';
                 error_message2.style.color='red';
-                event.preventDefault(); 
+                event.preventDefault();
             }else{
                 error_message2.textContent = '';
             }
@@ -993,7 +983,7 @@ vueprofils.addEventListener('click', function() {
 
         solidDistanceElements.forEach(function(element) {
         element.addEventListener("click", function() {
-            modal.style.display = "block";  
+            modal.style.display = "block";
         });
         });
 
@@ -1032,13 +1022,130 @@ vueprofils.addEventListener('click', function() {
         var solidDistanceBtn = document.querySelectorAll(".solid_distances");
 
         solidDistanceBtn.addEventListener('mouseenter', function() {
-            solidDistanceBtn.style.cursor='pointer';  
+            solidDistanceBtn.style.cursor='pointer';
         });
         solidDistance.addEventListener('mouseenter', function() {
-            solidDistance.style.cursor='pointer';  
+            solidDistance.style.cursor='pointer';
         });
 
-       
+
+</script>
+
+<script>
+    document.getElementById('camera-btn').addEventListener('click', () => {
+
+navigator.mediaDevices.getUserMedia({
+
+        video: true
+
+    })
+
+    .then((stream) => {
+
+        const video = document.createElement('video');
+
+        video.srcObject = stream;
+
+        video.play();
+
+
+
+        const modal = document.createElement('div');
+
+        modal.style.position = 'fixed';
+
+        modal.style.top = '50%';
+
+        modal.style.left = '50%';
+
+        modal.style.transform = 'translate(-50%, -50%)';
+
+        modal.style.zIndex = '1000';
+
+        modal.style.backgroundColor = 'white';
+
+        modal.style.padding = '20px';
+
+        modal.appendChild(video);
+
+
+
+        const captureBtn = document.createElement('button');
+
+        captureBtn.innerText = 'Capturer';
+
+        captureBtn.onclick = () => {
+
+            const canvas = document.createElement('canvas');
+
+            canvas.width = video.videoWidth;
+
+            canvas.height = video.videoHeight;
+
+            const ctx = canvas.getContext('2d');
+
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            const imageDataUrl = canvas.toDataURL('image/png');
+
+            document.getElementById('user-image').src = imageDataUrl;
+
+
+
+            stream.getTracks().forEach(track => track.stop());
+
+            document.body.removeChild(modal);
+
+        };
+
+
+
+        modal.appendChild(captureBtn);
+
+        document.body.appendChild(modal);
+
+    })
+
+    .catch((err) => {
+
+        alert('Erreur lors de l\'accès à la caméra : ' + err.message);
+
+    });
+
+});
+
+
+
+function uploadImage(event) {
+
+const file = event.target.files[0];
+
+const reader = new FileReader();
+
+
+
+reader.onload = function(e) {
+
+    document.getElementById('user-image').src = e.target.result;
+
+};
+
+
+
+reader.readAsDataURL(file);
+
+}
+
+
+
+function deleteImage() {
+
+document.getElementById('user-image').src =
+
+    '{{ asset('frontend/dashboard/images/kad.jpg') }}';
+
+}
+
 </script>
 <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -1047,7 +1154,7 @@ vueprofils.addEventListener('click', function() {
             solidDistancesElements.forEach(function(element) {
                 element.addEventListener('click', function() {
                     const nomCell = this.closest('tr').querySelector('td[data-label="Nom"]');
-                    
+
                     const nomText = nomCell.textContent.trim();
 
                     const nomAfficheElement = document.querySelector('#nom_affiche');
@@ -1597,7 +1704,7 @@ vueprofils.addEventListener('click', function() {
                 const reader = new FileReader();
                 reader.onload = function(event) {
                     preview.src = event.target.result;
-                    preview.style.display = 'block'; 
+                    preview.style.display = 'block';
                 }
                 reader.readAsDataURL(file);
             }

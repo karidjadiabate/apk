@@ -90,14 +90,9 @@
         }
         .exercise-content {
             display: flex;
-            align-items: start;
+            align-items: center;
             justify-content: space-between;
             flex-direction:column;
-        }
-        .exercise-image{
-            text-align: center;
-            width: 100%;
-            margin: 10px;
         }
         .question {
             display: flex;
@@ -125,7 +120,6 @@
             display: flex;
             justify-content: space-between;
             width: 100%;
-            margin-bottom: 30px;
         }
         .options-group {
             display: grid;
@@ -258,14 +252,12 @@
                 .page {
                 page-break-after: always;
                 }
-            .container{
-                  margin: 0 auto;
-            }     padding: 0;
+
         }
 
 
         .border-success{
-            border: 2px solid #38b292 !important;
+            border:2px solid #38b292 !important;
         }
         h5{
             font-size: 2mm;
@@ -345,11 +337,11 @@
             justify-content: space-around;
         }
         .content-striped{
-            margin-top: 34mm;
+            margin-top: 31mm;
             margin-bottom: 0mm;
             display: flex;
             flex-direction: column;
-            height: 278mm;
+            height: 260mm;
             width: 100%;
             max-width: 5mm;
             overflow: hidden;
@@ -357,14 +349,14 @@
         .bg-striped1 {
             width: 100%;
             max-width: 5mm;
-            margin-top: 2.5mm;
+            margin-top: 8mm;
         }
 
         .bg-striped2 {
             width: 100%;
             max-width: 5mm;
             margin-bottom:1mm;
-            margin-top: 2mm;
+            margin-top: .5 mm;
         }
 
         .tble-dark{
@@ -372,22 +364,23 @@
         }
         .tr-dark1 {
             background-color: #000;
-            height: 3.1mm;
+            height: 2mm;
             margin-top: 1mm;
         }
         .tr-light1 {
             background-color: #fff;
             color: #000;
-            height: 1.29mm;
+            height: .7mm;
         }
         .tr-dark2 {
             background-color: #000;
-            height: 3.1mm;
+            height: 2mm;
         }
         .tr-light2 {
             background-color: #fff;
             color: #000;
-            height: 1.65mm;
+            height: 1mm;
+            height: 1.23mm;
         }
 
         .dark-bar{
@@ -398,7 +391,7 @@
         .page-content{
             width: 100%;
             max-width: 205mm;
-            /*margin-top: -15mm;*/
+            margin-top: -15mm;
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -410,7 +403,7 @@
         }
 
         .sqare-matiere{
-            padding: 0 30mm;
+            padding: 2mm 30mm;
             border: 2px solid #38b292;
             margin-left: 2mm ;
         }
@@ -532,8 +525,8 @@
         .circle-matricule{
             text-align: center;
             border: 2px solid #38b292;
-            width: 2.8mm;
-            height: 2.8mm;
+            width: 2.5mm;
+            height: 2.5mm;
             border-radius: 50%;
             background-color: #fff;
             color: #38b292;
@@ -597,7 +590,7 @@
         }
         .note-obtained, .supervisor-signature{
             margin-top: 2mm;
-            height: 29mm;
+            height: 25mm;
         }
         .questions-a4{
             width: 100%;
@@ -644,12 +637,11 @@
 </head>
 <body>
         @foreach($randomSubjects as $index => $randomSubject)
-
             <div class="random-subject">
             <div class="subject-wrapper">
                 <div class="subject-content">
                 <div class="header">
-                    <div class="logo"><img src="{{ asset('images/pigier.png') }}" height="50" width="auto" alt=""></div>
+                    <div class="logo"><img src="{{ asset('storage/logo/' . auth()->user()->etablissement->logo) }}" height="50" width="auto" alt=""></div>
                         <div class="title">
                             <div class="devoir"><span class="devoir-text">{{ $dataAtributes['typesujet'] }}</span></div>
                             <div class="devtitle">
@@ -666,8 +658,8 @@
                                                                     $totalMinutes = $hoursInMinutes + $minutes;
                                                                 @endphp
                                                                 {{ $totalMinutes }} min</span></div>
-                            <div>Coefficient : <span class="info-text">1</span></div>
-                            <div>ECT : <span class="info-text">1</span></div>
+                                                                <div>Coefficient : <span class="info-text">{{ $coefficient }}</span></div>
+                                                                <div>ECT : <span class="info-text">{{$ects}}</span></div>
                         </div>
                     </div>
 
@@ -758,13 +750,13 @@
                 <div class="sheet-section">
                     <div class="logo">
                         <div class="img-logo">
-                            <img src="{{ asset('images/pigier.png') }}" height="44" width="auto" class="" alt="logo" srcset="">
+                            <img src="{{ asset('images/pigier.png') }}" height="40" width="auto" class="" alt="logo" srcset="">
                             <div class="dev">Devoir</div>
                         </div>
                     </div>
                     <div class="sheet-info">
                         <div class=" border-success header-a4">
-                            <div class="header-content"><div class="header-text">Matière: </div> <div class="sqare-matiere">{{ $dataAtributes['matiere'] }}</div></div>
+                            <div class="header-content"><div class="header-text">Matière: </div> <div class="sqare-matiere"></div></div>
                             <div class="header-content"><span class="header-text">Date: </span> <span class="sqare-date"></span></div>
                         </div>
                     </div>
@@ -802,7 +794,7 @@
                                         <table class="table">
                                             <tbody>
                                               <tr class="tablename">
-                                                <td>{{ $dataAtributes['classe'] }}</td>
+                                                <td>{{ $dataAtributes['matiere'] }}</td>
                                               </tr>
                                             </tbody>
                                         </table>
@@ -826,13 +818,13 @@
 
                                 <div class="info-filiere">
                                     <div class="border-bottom-success name-title">
-                                        <h5>FILIERE</h5>
+                                        <h5>{{ $dataAtributes['filiere'] }}</h5>
                                     </div>
                                     <div class="table-responsive name-arrow">
                                         <table class="table">
                                             <tbody>
                                               <tr class="tablename">
-                                                <td>{{ $dataAtributes['filiere'] }}</td>
+                                                <td>CF</td>
                                               </tr>
                                             </tbody>
                                         </table>
@@ -1921,12 +1913,12 @@ $(document).ready(function() {
             }
 
             $(document).ready(function() {
-            for (var i = 0; i < 81; i++) {
-                var rowClass1 = (i % 2 === 0) ? 'tr-dark1' : 'tr-light1';
+            for (var i = 0; i < 151; i++) {
+                var rowClass1 = (i % 4 === 0) ? 'tr-dark1' : 'tr-light1';
                 $('.tbody-dark1').append('<tr class="' + rowClass1 + '"><td></td></tr>');
             }
-            for (var i = 0; i < 37; i++) {
-                var rowClass2 = (i % 2 === 0) ? 'tr-dark2' : 'tr-light2';
+            for (var i = 0; i < 61; i++) {
+                var rowClass2 = (i % 3 === 0) ? 'tr-dark2' : 'tr-light2';
                 $('.tbody-dark2').append('<tr class="' + rowClass2 + '"><td></td></tr>');
             }
         });

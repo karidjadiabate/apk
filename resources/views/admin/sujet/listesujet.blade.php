@@ -183,11 +183,11 @@
                         </ul>
                     </div>
 
-                    @if (intval(auth()->user()->role_id) === 2)
+                    @if (auth()->user()->role_id == 2)
                         <a href="{{ route('sujetprofesseur.create') }}" class="btn btn-custom btn-ajouter"
                             onclick="window.location.href='{{ asset('frontend/dashboard/html/sujt.html') }}'"><i
                                 class="fa fa-plus"></i> Creer un sujet</a>
-                    @elseif(intval(auth()->user()->role_id) === 3)
+                    @elseif(auth()->user()->role_id == 3)
                         <a href="{{ route('sujetadmin.create') }}" class="btn btn-custom btn-ajouter"
                             onclick="window.location.href='{{ asset('frontend/dashboard/html/sujt.html') }}'"><i
                                 class="fa fa-plus"></i> Creer un sujet</a>

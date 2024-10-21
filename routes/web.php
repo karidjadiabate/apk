@@ -107,15 +107,16 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'checkFromDemandeInscriptio
     Route::get('/aideconfidentialite', [ClientController::class, 'aideconfidentialite'])->name('aideconfidentialite.admin');
 
     Route::post('/changepassword/update', [MonCompteController::class, 'updatepassword'])->name('updatepassword.admin');
-    Route::post('/updateprofile', [MoncompteController::class, 'updateprofile'])->name('updateprofile.admin');
+    Route::post('/updateprofile/{id}', [MoncompteController::class, 'updateprofile'])->name('updateprofile.admin');
 
     Route::get('/sujet', [SujetController::class, 'index'])->name('sujet.admin');
     Route::get('/creersujet', [SujetController::class, 'create'])->name('sujetadmin.create');
     Route::post('/sujet', [SujetController::class, 'store'])->name('sujetadmin.store');
     Route::get('/details/{id}', [SujetController::class, 'details'])->name('sujetadmin.details');
-
-
+    Route::get('/nouvelle-page/{id}', [SujetController::class, 'voirPage'])->name('sujetadmin.voir-page');
     Route::get('/parametre', [ParametreController::class, 'index'])->name('parametre.admin');
+    Route::post('/etablissement/{id}', [ParametreController::class, 'updateetablissement'])->name('updateetablissement');
+
 });
 
 
@@ -138,10 +139,17 @@ Route::prefix('professeur')->middleware(['professeur', 'changepassword'])->group
 
     Route::post('/changepassword/update', [MoncompteController::class, 'updatepassword'])->name('updatepassword.professeur');
     Route::post('/updateprofile/{id}', [MoncompteController::class, 'updateprofile'])->name('updateprofile.professeur');
+
+
 });
 
+
 Route::post('/verify-email', [EmailVerificationController::class, 'verifyEmail']);
+
+Route::post('/updatevaluation', [CalendrierEvaluationController::class, 'update'])->name('updatevaluation');
+Route::post('/deletevaluation', [CalendrierEvaluationController::class, 'destroy'])->name('deletevaluation');
 
 Route::get('password/change', [PasswordChangeController::class, 'showChangeForm'])->name('password.change');
 Route::post('password/change', [PasswordChangeController::class, 'changePassword']);
 Route::get('/recuperer-coefficient-ects/{matiere_id}', [SujetController::class, 'getCoefficientAndEcts'])->name('recuperer.coefficient.ects');
+
