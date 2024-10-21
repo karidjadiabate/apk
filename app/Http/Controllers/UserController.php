@@ -138,7 +138,8 @@ class UserController extends Controller
             'genre' => $request->genre,
             'datenaiss' => $request->datenaiss,
             'adresse' => $request->adresse,
-            'filiere_id' => $request->filiere_id
+            'filiere_id' => $request->filiere_id,
+            'apropos' => $request->apropos
         ];
 
         if ($request->role_id == 1) {
@@ -228,6 +229,8 @@ class UserController extends Controller
             $user->datenaiss = $request->datenaiss;
             $user->adresse = $request->adresse;
             $user->filiere_id = $request->filiere_id;
+            $user->apropos = $request->apropos;
+
         } elseif ($user->role_id == 2) {
             if (is_array($request->matiere_id)) {
                 $user->matiere_id = implode(',', $request->matiere_id);

@@ -264,7 +264,7 @@
                                                             id="decrease-btnedit">-</button>
 
                                                         <select class="form-select" id="niveau_id" name="niveau_id" style="margin: 0 10px;" required>
-                                                            <option selected>Niveau</option>
+                                                            <option selected disabled>Niveau</option>
                                                             @foreach ($niveaux as $niveau)
                                                                 <option value="{{ $niveau->id }}" {{ $niveau->id == $matiere->niveau_id ? 'selected' : '' }}>
                                                                     {{ $niveau->code }}</option>
@@ -408,7 +408,7 @@
 
                                 <!-- Select for level (niveau) -->
                                 <select class="form-select" id="niveau_id" name="niveau_id" style="margin: 0 10px;">
-                                    <option selected>Niveau</option>
+                                    <option selected disabled>Niveau</option>
                                     @foreach ($niveaux as $niveau)
                                         <option value="{{ $niveau->id }}">{{ $niveau->nomniveau }}</option>
                                     @endforeach

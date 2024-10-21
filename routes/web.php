@@ -107,15 +107,16 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'checkFromDemandeInscriptio
     Route::get('/aideconfidentialite', [ClientController::class, 'aideconfidentialite'])->name('aideconfidentialite.admin');
 
     Route::post('/changepassword/update', [MonCompteController::class, 'updatepassword'])->name('updatepassword.admin');
-    Route::post('/updateprofile', [MoncompteController::class, 'updateprofile'])->name('updateprofile.admin');
+    Route::post('/updateprofile/{id}', [MoncompteController::class, 'updateprofile'])->name('updateprofile.admin');
 
     Route::get('/sujet', [SujetController::class, 'index'])->name('sujet.admin');
     Route::get('/creersujet', [SujetController::class, 'create'])->name('sujetadmin.create');
     Route::post('/sujet', [SujetController::class, 'store'])->name('sujetadmin.store');
     Route::get('/details/{id}', [SujetController::class, 'details'])->name('sujetadmin.details');
 
-
     Route::get('/parametre', [ParametreController::class, 'index'])->name('parametre.admin');
+    Route::post('/etablissement/{id}', [ParametreController::class, 'updateetablissement'])->name('updateetablissement');
+
 });
 
 

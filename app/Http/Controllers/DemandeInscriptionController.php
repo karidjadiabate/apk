@@ -100,6 +100,7 @@ class DemandeInscriptionController extends Controller
             'nometablissement' => $demande->nometablissement,
             'contact' => $demande->contact,
             'adresse' => $demande->adresseetablissement,
+            'email' => $demande->email,
             'logo' => null,
         ];
 

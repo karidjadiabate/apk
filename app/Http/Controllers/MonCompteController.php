@@ -67,9 +67,10 @@ class MonCompteController extends Controller
         $user->email = $request->email;
         $user->contact = $request->contact;
         $user->adresse = $request->adresse;
+        $user->apropos = $request->apropos;
 
         $user->save();
 
-        return back()->with('success', 'Profile updated successfully.');
+        return back()->with('success', 'Profile modifié avec success.');
     }
 }
