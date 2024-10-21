@@ -113,7 +113,6 @@ Route::prefix('admin')->middleware(['auth', 'admin', 'checkFromDemandeInscriptio
     Route::get('/creersujet', [SujetController::class, 'create'])->name('sujetadmin.create');
     Route::post('/sujet', [SujetController::class, 'store'])->name('sujetadmin.store');
     Route::get('/details/{id}', [SujetController::class, 'details'])->name('sujetadmin.details');
-    Route::get('/nouvelle-page/{id}', [SujetController::class, 'voirPage'])->name('sujetadmin.voir-page');
     Route::get('/parametre', [ParametreController::class, 'index'])->name('parametre.admin');
     Route::post('/etablissement/{id}', [ParametreController::class, 'updateetablissement'])->name('updateetablissement');
 
@@ -129,7 +128,6 @@ Route::prefix('professeur')->middleware(['professeur', 'changepassword'])->group
     Route::get('/creersujet', [SujetController::class, 'create'])->name('sujetprofesseur.create');
     Route::post('/sujet', [SujetController::class, 'store'])->name('sujetprofesseur.store');
     Route::get('/details/{id}', [SujetController::class, 'details'])->name('sujetprofesseur.details');
-
 
     Route::get('/calendrier', [CalendrierEvaluationController::class, 'index'])->name('calendrier.professeur');
     Route::post('/calendrier', [CalendrierEvaluationController::class, 'store'])->name('calendrierprofesseur.store');
@@ -151,5 +149,8 @@ Route::post('/deletevaluation', [CalendrierEvaluationController::class, 'destroy
 
 Route::get('password/change', [PasswordChangeController::class, 'showChangeForm'])->name('password.change');
 Route::post('password/change', [PasswordChangeController::class, 'changePassword']);
+
 Route::get('/recuperer-coefficient-ects/{matiere_id}', [SujetController::class, 'getCoefficientAndEcts'])->name('recuperer.coefficient.ects');
+Route::get('/nouvelle-page/{id}', [SujetController::class, 'voirPage'])->name('sujet.voir-page');
+
 

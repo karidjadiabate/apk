@@ -845,8 +845,11 @@
             <h3>Quitter la page</h3>
             <p>Voulez-vous vraiment quitter la page ??</p>
             <div id="cool">
-                <!-- Correction ici : 'href' au lieu de 'herf' -->
-                <a href="/admin/sujet" class="btn btn-success">Oui</a>
+                @if (auth()->user()->role_id == 3)
+                    <a href="{{route('sujet.admin')}}" class="btn btn-success">Oui</a>
+                @elseif (auth()->user()->role_id == 2)
+                    <a href="{{route('sujet.professeur')}}" class="btn btn-success">Oui</a>
+                @endif
                 <input type="reset" value="Non" class="btn-secondaire" id="btn-red">
             </div>
         </div>
@@ -1418,7 +1421,7 @@ $(".btn-next").click(function (e) {
                 var count_qustn = 1;
                 const contentHtml = `
                     <div class="header">
-                        <div class="logo"><img src="{{ asset('images/pigier.png') }}" class="img-sheet" height="50" width="auto" alt=""></div>
+                        <div class="logo"><img src="{{ asset('storage/logo/' . auth()->user()->etablissement->logo) }}" class="img-sheet" height="50" width="150" alt=""></div>
                         <div class="title">
                             <div class="devoir"><span class="devoir-text">${dataAtributes.typesujet}</span></div>
                             <div class="devtitle">

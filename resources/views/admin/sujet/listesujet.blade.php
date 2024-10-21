@@ -545,7 +545,7 @@
             var baseUrl = window.location.origin;
 
             // URL
-            var url = baseUrl + '/admin/nouvelle-page/' + idSujet;
+            var url = baseUrl + '/nouvelle-page/' + idSujet;
 
             //URL dans l'iframe
             var iframe = document.getElementById('pageIframe');
